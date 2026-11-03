@@ -36,3 +36,7 @@ Pilotní architektura pro real-time ingestu telemetrických dat, deterministicko
     - `test_constraints.py` – Testovací skripty pro ověření mezí
 - `docker-compose.yml` – Konfigurace Kafky a výpočetního prostředí
 - `README.md` – Dokumentace projektu
+- **Geografický a meteorologický kontext (GPS & Meteo)**:
+  - Rozšíření telemetrických zpráv o identifikátory stanic (`station_id`), typy aktiv (`asset_type`) a GPS souřadnice rozvoden a OZE.
+  - `meteo_producer.py` – Samostatná služba pro pravidelný sběr aktuálních meteorologických dat (teplota vzduchu, rychlost větru, sluneční radiace) z otevřeného **Open-Meteo API**[cite: 3].
+  - Podpora pro budoucí výpočet **Dynamic Line Rating (DLR)** – dynamické zatížení vedení v závislosti na reálném chlazení větrem a okolní teplotě.
