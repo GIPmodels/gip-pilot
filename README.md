@@ -40,3 +40,36 @@ Pilotní architektura pro real-time ingestu telemetrických dat, deterministicko
   - Rozšíření telemetrických zpráv o identifikátory stanic (`station_id`), typy aktiv (`asset_type`) a GPS souřadnice rozvoden a OZE.
   - `meteo_producer.py` – Samostatná služba pro pravidelný sběr aktuálních meteorologických dat (teplota vzduchu, rychlost větru, sluneční radiace) z otevřeného **Open-Meteo API**[cite: 3].
   - Podpora pro budoucí výpočet **Dynamic Line Rating (DLR)** – dynamické zatížení vedení v závislosti na reálném chlazení větrem a okolní teplotě.
+# GIP - Grid Intelligent Platform (Pilot)
+
+**GIP (Grid Intelligent Platform)** je patentově připravená, vysoce bezpečná softwarová platforma pro pokročilou kognitivní orchestraci a řízení energetických sítí (včetně integrace BESS, obnovitelných zdrojů a průmyslové automatizace DCS). Platforma kombinuje moderní IT vrstvy s deterministickými fyzickými guardraily pro bezpečný dispečink energie.
+
+---
+
+## 🏗️ Architektura systému
+
+Architektura je navržena s důrazem na oddělení citlivého OT (Operational Technology) prostředí rozvoden od IT výpočetního jádra (air-gapped princip):
+
+1. **Edge Gateway / Průmyslový překladač:** Fyzická brána na rozhraní rozvodny, která přijímá surová data ze SCADA/DCS systémů (např. protokoly IEC 60870-5-104) a zajišťuje bidirekční konverzi.
+2. **GIP Core Engine & Pipeline:** Centralizovaný uzel (běžící např. na lokálním serveru / Mac Studiu), který zajišťuje sběr, normalizaci a časovou synchronizaci dat přes **Apache Kafka**.
+3. **Guardrail-Interlock Solver:** Deterministické matematické jádro využívající maticové solvery admitancí ($\mathbf{Y}_{bus}$), DAE modely a výpočty DLR dle normativních standardů (**ČSN EN 50160**, **ČSN EN 50341**). Vyhodnocuje návrhy AI/dispečinku a v případě ohrožení sítě provádí **atomické zablokování** nebezpečných povelů.
+
+---
+
+## 📂 Obsah repozitáře
+
+* **`gip_core_engine.py`**: Hlavní skript obsahující:
+  * Dekodér binárního protokolu **IEC 60870-5-104** pro překlad telemetrie z rozvoden.
+  * Datovou pipeline pro čištění, filtraci a normalizaci proudů.
+  * Deterministický maticový solver pro ověření fyzických limitů napětí a zatížení.
+  * Integraci s **Apache Kafka** pro asynchronní frontu příkazů a telemetrie.
+
+---
+
+## 🚀 Rychlý start a spuštění
+
+### 1. Požadavky a závislosti
+Pro běh skriptu je nutné mít nainstalovaný Python 3.10+ a potřebné knihovny (NumPy, Pandas, kafka-python):
+
+```bash
+pip install numpy pandas kafka-python
