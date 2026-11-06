@@ -73,3 +73,21 @@ Pro běh skriptu je nutné mít nainstalovaný Python 3.10+ a potřebné knihovn
 
 ```bash
 pip install numpy pandas kafka-python
+
+# GIP (Grid Intelligent Platform) - 5-Node Deterministic Digital Twin & Tensor Bridge
+
+## Overview
+This module establishes a rigorous, first-principles digital twin for critical electrical grid infrastructure under **QUALCO TECHNOLOGIES s.r.o.**[cite: 7]. It bridges symbolic Wolfram Mathematica DAE (Differential-Algebraic Equation) solvers with a PyTorch Geometric (`torch_geometric`) execution pipeline for GNN and PINN surrogate model training.
+
+## Architecture & Workflow
+1. **Single Source of Truth (Wolfram Mathematica):** 
+   - Solves non-linear AC power flow equations and exact operational states ($V, \theta, P, Q$) for a 5-node network (including a 22/110 kV transformer, STATCOM, PV, BESS, and load components).
+   - Exports validated network topology, complex admittance matrix ($Y_{bus}$), and solved states directly into a master JSON contract.
+2. **Deterministic Tensor Pipeline (`gip_runner.py`):**
+   - Parses the master JSON without heuristic approximations or numerical solver hacks.
+   - Transforms nodes, edges, transformers, and the complex $Y_{bus}$ matrix into standard PyTorch Geometric `Data` objects (`gip_5node_tensor_state.pt`).
+
+## Key Artifacts
+* `app/gip_5node_export.json`: Master schema containing solved AC operating points and network parameters.
+* `app/gip_runner.py`: Python execution script for tensor transformation.
+* `gip_5node_tensor_state.pt`: Serialized PyTorch Geometric dataset ready for physics-informed neural network training.
