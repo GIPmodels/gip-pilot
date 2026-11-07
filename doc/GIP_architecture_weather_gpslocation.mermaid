@@ -1,0 +1,58 @@
+graph LR
+    subgraph S1 [1A. External Predictive Context]
+        Meteo[Meteo Forecasting <br/> Light exposure, Wind, Temperature, etc..]
+        Spacial[Spacial data and GIS <br/> GPS grid nodes location]
+    end
+
+    subgraph S2 [2. Data Stream]
+        Trans[Transformation, <br/> Filtering and <br/> space-time <br/> synchronization data]
+    end
+
+    subgraph S3 [3. Physics and AI - Digital Twin]
+        Multi[Multimodal filtered state]
+        GNN[GNN / PINN Surrogate Models <br/> Prediction from Meteo and Space-time sync]
+        Prediction[Prediction of incomming warnings and fluctuations]
+        DAE[DAE Physics solver - Modflow <br/> Absolute Physics Truth]
+    end
+
+    subgraph S4 [4. Cognitive LLM Orchestrator]
+        LLM[LLM Cognitive Analysis<br/> Decisions and strategy]
+        Suggestion[Solution Suggestion, e.g. <br/> reconfiguration, choices BESS]
+        Guardrails[Failsafe Guardrails]
+    end
+
+    subgraph S5 [5. Action]
+        Dispatch[Dispatch TSO/DSO <br/> Decission support]
+        Microgrid[Microgrid / Agregation <br/> Automated management]
+    end
+
+    subgraph S1B [1B. Physical grid infrastructure]
+        TSO[TSO - Transfer system <br/> SCADA, MAMS / PMU]
+        DSO[DSO - Distribution system <br/> local SCADA, RTU]
+        Terminal[Terminal grids / Microgrids <br/> Smart Meters, OZE, BESS]
+    end
+
+    %% Connections
+    Meteo -->|Weather prediction for OZE| Trans
+    Spacial -->|Grid Topology| Trans
+    Trans --> Multi
+    Multi --> GNN
+    GNN --> Prediction
+    Prediction --> LLM
+
+    LLM --> Suggestion
+    Suggestion --> Guardrails
+
+    Guardrails -->|Approved, physically possible action| Dispatch
+    Guardrails -->|Approved, physically possible action| Microgrid
+
+    Dispatch -->|Dispatcher manual intervention| TSO
+    Dispatch -->|Dispatcher manual intervention| DSO
+    Microgrid -->|Feedback, physical redirection| DSO
+
+    DAE -->|Validation against physical limits| Guardrails
+    DAE -->|Safety Confirmation| Guardrails
+
+    TSO -->|Raw telemetry| Trans
+    DSO -->|Raw telemetry| Trans
+    Terminal -->|Raw telemetry| Trans
