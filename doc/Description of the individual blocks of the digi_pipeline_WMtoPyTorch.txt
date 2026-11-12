@@ -1,0 +1,11 @@
+Description of the individual blocks in the diagram:
+Module 1 (Equipment Catalogue):
+Defines the behaviour and equations of individual components (22 kV slack generators, 110/22 kV transformers, PV systems, BESS, STATCOM, PST and loads) independently of any specific topology.
+Module 2 (Topology Builder & $Y_{\text{bus}}$):
+Loads the network input data (configuration file or database) with any number of nodes ($N \in [2, 300]$) and automatically generates an $N \times N$ $Y_{\text{bus}}$ admittance matrix and a list of branches.
+Module 3 (Generalised solver):
+Dynamically constructs a system of non-linear power flow equations (AC load-flow), solves it using a numerical solver, and calculates losses and node states.
+Module 4 (HDF5 Export Bridge):
+Converts complex matrices and result vectors into purely numerical arrays and saves them to a binary .h5 file, thereby avoiding problems with JSON text parsing.
+Modules 5 to 7 (Python / PyG):
+In Python, the data is immediately loaded into memory via the h5py library and formatted into x tensors (node labels) and edge_index (topology for graph networks), enabling direct connection to GNN and PINN architectures with physical guardrails.
