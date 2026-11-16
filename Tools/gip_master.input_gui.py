@@ -24,9 +24,7 @@ if st.sidebar.button("💾 Vygenerovat gip_config.json", type="primary"):
       "branches": st.session_state.branches_list,
   }
 
-  download_path = os.path.join(
-      os.path.expanduser("~"), "Downloads", "gip_config.json"
-  )
+  download_path = os.path.join(os.path.dirname(__file__), "gip_config.json")
   with open(download_path, "w", encoding="utf-8") as f:
     json.dump(config_data, f, indent=4)
 
