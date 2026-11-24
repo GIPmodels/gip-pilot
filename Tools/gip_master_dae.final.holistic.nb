@@ -1,0 +1,3027 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 15.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[    127011,       3019]
+NotebookOptionsPosition[    126648,       3005]
+NotebookOutlinePosition[    127049,       3021]
+CellTagsIndexPosition[    127006,       3018]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "==="}], "="}], "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"GIP", " ", 
+     RowBox[{"(", 
+      RowBox[{"Grid", " ", "Intelligent", " ", "Platform"}], ")"}]}], "-", 
+    RowBox[{"Master", " ", "Notebook", " ", "pro", " ", "N"}], "-", 
+    RowBox[{"uzlov\[EAcute]", " ", "s\[IAcute]t\[EHacek]"}]}], "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"Architektura", ":", 
+     RowBox[{"Modul\[AAcute]rn\[IAcute]", " ", "topologie"}]}], ",", 
+    RowBox[{"bilance", " ", "z\[AAcute]t\[EHacek]\[ZHacek]\[IAcute]"}], ",", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"DAE", "/", "NDSolve"}], "&"}], " ", "Export"}]}], "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "==="}], "="}], "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"--", 
+      RowBox[{"-", "MODUL"}]}], " ", "0"}], ":", 
+    RowBox[{
+     RowBox[{"Inicializace", " ", "a", " ", "glob\[AAcute]ln\[IAcute]", " ", 
+      RowBox[{"konstanty", "--"}]}], "-"}]}], "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"ClearAll", "[", "\"\<Global`*\>\"", "]"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"$RecursionLimit", "=", "10000"}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"fDefault", "=", "50.0"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"baseMVADefault", "=", "250.0"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "==="}], "="}], "*)"}], "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"MODUL", " ", "1"}], ":", 
+     RowBox[{
+     "Na\[CHacek]ten\[IAcute]", " ", "konfigurace", " ", "z", " ", "GUI", " ", 
+      RowBox[{"(", 
+       RowBox[{"Streamlit", " ", "JSON"}], ")"}], " ", "a", " ", 
+      "p\[RHacek]\[IAcute]prava", " ", "dat"}]}], "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "==="}], "="}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+    "jsonPath", 
+     "=", "\"\<C:\\\\GIP_Models\\\\gip-pilot\\\\Tools\\\\gip_config.json\>\""}\
+], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"rawConfig", "=", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{"FileExistsQ", "[", "jsonPath", "]"}], ",", 
+       RowBox[{
+        RowBox[{"Print", "[", 
+         RowBox[{"\"\<\:2714 \[CapitalUAcute]sp\[EHacek]\[SHacek]n\[EHacek] \
+na\[CHacek]ten konfigura\[CHacek]n\[IAcute] soubor: \>\"", ",", "jsonPath"}], 
+         "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Import", "[", 
+         RowBox[{"jsonPath", ",", "\"\<JSON\>\""}], "]"}]}], ",", 
+       RowBox[{
+        RowBox[{"Print", "[", 
+         RowBox[{"\"\<\:26a0 Pozor: Soubor gip_config.json nebyl nalezen na \
+cest\[EHacek]: \>\"", ",", "jsonPath"}], "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"<|", "|>"}]}]}], "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"baseMVA", "=", 
+     RowBox[{"N", "[", 
+      RowBox[{"Lookup", "[", 
+       RowBox[{"rawConfig", ",", "\"\<base_mva\>\"", ",", "baseMVADefault"}], 
+       "]"}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"!", 
+        RowBox[{"NumericQ", "[", "baseMVA", "]"}]}], "||", 
+       RowBox[{"baseMVA", "<=", "0"}]}], ",", 
+      RowBox[{"baseMVA", "=", "baseMVADefault"}]}], "]"}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"f", "=", 
+     RowBox[{"N", "[", 
+      RowBox[{"Lookup", "[", 
+       RowBox[{"rawConfig", ",", "\"\<frequency\>\"", ",", "fDefault"}], 
+       "]"}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"!", 
+        RowBox[{"NumericQ", "[", "f", "]"}]}], "||", 
+       RowBox[{"f", "<=", "0"}]}], ",", 
+      RowBox[{"f", "=", "fDefault"}]}], "]"}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"omegaSys", "=", 
+     RowBox[{"2.0", "*", "Pi", "*", "f"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"optionalNodeKeys", "=", 
+     RowBox[{"{", 
+      RowBox[{"\"\<H\>\"", ",", "\"\<D\>\"", ",", "\"\<R\>\"", 
+       ",", "\"\<tau_s\>\"", ",", "\"\<tau_q_s\>\"", ",", "\"\<e_mwh\>\"", 
+       ",", "\"\<soc\>\"", ",", "\"\<cap\>\"", ",", "\"\<load_type\>\"", 
+       ",", "\"\<bus\>\"", ",", "\"\<p_mw\>\"", ",", "\"\<q_mvar\>\"", 
+       ",", "\"\<zip_p\>\"", ",", "\"\<zip_q\>\"", ",", "\"\<dP_df\>\"", 
+       ",", "\"\<dQ_df\>\"", ",", "\"\<duty_cycle\>\"", 
+       ",", "\"\<is_flexible\>\"", ",", "\"\<limits\>\"", 
+       ",", "\"\<in_service\>\"", ",", "\"\<q_min\>\"", ",", "\"\<q_max\>\"", 
+       ",", "\"\<T_reg\>\"", ",", "\"\<i_limit\>\""}], "}"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"nodesListRaw", "=", 
+     RowBox[{"Lookup", "[", 
+      RowBox[{"rawConfig", ",", "\"\<nodes\>\"", ",", 
+       RowBox[{"{", "}"}]}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"branchesListRaw", "=", 
+     RowBox[{"Lookup", "[", 
+      RowBox[{"rawConfig", ",", "\"\<branches\>\"", ",", 
+       RowBox[{"{", "}"}]}], "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"nodesDef", "=", 
+     RowBox[{"Association", "[", 
+      RowBox[{"Map", "[", 
+       RowBox[{
+        RowBox[{"Function", "[", 
+         RowBox[{"node", ",", 
+          RowBox[{"Module", "[", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{
+             "ndAssoc", ",", "baseAssoc", ",", "extraAssoc", ",", "idVal"}], 
+             "}"}], ",", 
+            RowBox[{
+             RowBox[{"ndAssoc", "=", 
+              RowBox[{"Association", "[", "node", "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"idVal", "=", 
+              RowBox[{"ToString", "[", 
+               RowBox[{"Lookup", "[", 
+                RowBox[{"ndAssoc", ",", "\"\<id\>\"", ",", "\"\<\>\""}], 
+                "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"baseAssoc", "=", 
+              RowBox[{"<|", 
+               RowBox[{
+                RowBox[{"\"\<id\>\"", "->", "idVal"}], ",", 
+                RowBox[{"\"\<type\>\"", "->", 
+                 RowBox[{"ToString", "[", 
+                  RowBox[{"Lookup", "[", 
+                   RowBox[{
+                   "ndAssoc", ",", "\"\<type\>\"", ",", "\"\<PQ\>\""}], "]"}],
+                   "]"}]}], ",", 
+                RowBox[{"\"\<v\>\"", "->", 
+                 RowBox[{"N", "[", 
+                  RowBox[{"Lookup", "[", 
+                   RowBox[{"ndAssoc", ",", "\"\<v\>\"", ",", "1.0"}], "]"}], 
+                  "]"}]}], ",", 
+                RowBox[{"\"\<th\>\"", "->", 
+                 RowBox[{"N", "[", 
+                  RowBox[{"Lookup", "[", 
+                   RowBox[{"ndAssoc", ",", "\"\<th\>\"", ",", "0.0"}], "]"}], 
+                  "]"}]}], ",", 
+                RowBox[{"\"\<p\>\"", "->", 
+                 RowBox[{"N", "[", 
+                  RowBox[{"Lookup", "[", 
+                   RowBox[{"ndAssoc", ",", "\"\<p\>\"", ",", 
+                    RowBox[{
+                    RowBox[{"Lookup", "[", 
+                    RowBox[{"ndAssoc", ",", "\"\<p_mw\>\"", ",", "0.0"}], 
+                    "]"}], "/", "baseMVA"}]}], "]"}], "]"}]}], ",", 
+                RowBox[{"\"\<q\>\"", "->", 
+                 RowBox[{"N", "[", 
+                  RowBox[{"Lookup", "[", 
+                   RowBox[{"ndAssoc", ",", "\"\<q\>\"", ",", 
+                    RowBox[{
+                    RowBox[{"Lookup", "[", 
+                    RowBox[{"ndAssoc", ",", "\"\<q_mvar\>\"", ",", "0.0"}], 
+                    "]"}], "/", "baseMVA"}]}], "]"}], "]"}]}]}], "|>"}]}], ";",
+              "\[IndentingNewLine]", 
+             RowBox[{"extraAssoc", "=", 
+              RowBox[{"Association", "[", 
+               RowBox[{"Select", "[", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"(", 
+                    RowBox[{"#", "->", 
+                    RowBox[{"Lookup", "[", 
+                    RowBox[{"ndAssoc", ",", "#", ",", 
+                    RowBox[{"Missing", "[", "\"\<NotPresent\>\"", "]"}]}], 
+                    "]"}]}], ")"}], "&"}], "/@", "optionalNodeKeys"}], ",", 
+                 RowBox[{
+                  RowBox[{"(", 
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{"#", "[", 
+                    RowBox[{"[", "2", "]"}], "]"}], "=!=", 
+                    RowBox[{"Missing", "[", "\"\<NotPresent\>\"", "]"}]}], "&&", 
+                    RowBox[{
+                    RowBox[{"#", "[", 
+                    RowBox[{"[", "2", "]"}], "]"}], "=!=", "Null"}], "&&", 
+                    RowBox[{
+                    RowBox[{"#", "[", 
+                    RowBox[{"[", "2", "]"}], "]"}], "=!=", "None"}]}], ")"}], 
+                  "&"}]}], "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"idVal", "->", 
+              RowBox[{"Join", "[", 
+               RowBox[{"baseAssoc", ",", "extraAssoc"}], "]"}]}]}]}], "]"}]}],
+          "]"}], ",", "nodesListRaw"}], "]"}], "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"branchesDef", "=", 
+     RowBox[{"Association", "[", 
+      RowBox[{"Map", "[", 
+       RowBox[{
+        RowBox[{"Function", "[", 
+         RowBox[{"br", ",", 
+          RowBox[{"Module", "[", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{"a", ",", "brId"}], "}"}], ",", 
+            RowBox[{
+             RowBox[{"a", "=", 
+              RowBox[{"Association", "[", "br", "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"brId", "=", 
+              RowBox[{"ToString", "[", 
+               RowBox[{"Lookup", "[", 
+                RowBox[{"a", ",", "\"\<id\>\"", ",", "\"\<\>\""}], "]"}], 
+               "]"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"brId", "->", 
+              RowBox[{"<|", 
+               RowBox[{
+                RowBox[{"\"\<from\>\"", "->", 
+                 RowBox[{"ToString", "[", 
+                  RowBox[{"Lookup", "[", 
+                   RowBox[{"a", ",", "\"\<from\>\"", ",", "\"\<\>\""}], "]"}],
+                   "]"}]}], ",", 
+                RowBox[{"\"\<to\>\"", "->", 
+                 RowBox[{"ToString", "[", 
+                  RowBox[{"Lookup", "[", 
+                   RowBox[{"a", ",", "\"\<to\>\"", ",", "\"\<\>\""}], "]"}], 
+                  "]"}]}], ",", 
+                RowBox[{"\"\<length\>\"", "->", 
+                 RowBox[{"N", "[", 
+                  RowBox[{"Lookup", "[", 
+                   RowBox[{"a", ",", "\"\<length\>\"", ",", "20.0"}], "]"}], 
+                  "]"}]}], ",", 
+                RowBox[{"\"\<r\>\"", "->", 
+                 RowBox[{"N", "[", 
+                  RowBox[{"Lookup", "[", 
+                   RowBox[{"a", ",", "\"\<r\>\"", ",", "0.08"}], "]"}], 
+                  "]"}]}], ",", 
+                RowBox[{"\"\<x\>\"", "->", 
+                 RowBox[{"N", "[", 
+                  RowBox[{"Lookup", "[", 
+                   RowBox[{"a", ",", "\"\<x\>\"", ",", "0.40"}], "]"}], 
+                  "]"}]}], ",", 
+                RowBox[{"\"\<b\>\"", "->", 
+                 RowBox[{"N", "[", 
+                  RowBox[{"Lookup", "[", 
+                   RowBox[{"a", ",", "\"\<b\>\"", ",", "2.8"}], "]"}], 
+                  "]"}]}], ",", 
+                RowBox[{"\"\<ratio\>\"", "->", 
+                 RowBox[{"N", "[", 
+                  RowBox[{"Lookup", "[", 
+                   RowBox[{"a", ",", "\"\<ratio\>\"", ",", "1.0"}], "]"}], 
+                  "]"}]}], ",", 
+                RowBox[{"\"\<phase_deg\>\"", "->", 
+                 RowBox[{"N", "[", 
+                  RowBox[{"Lookup", "[", 
+                   RowBox[{"a", ",", "\"\<phase_deg\>\"", ",", "0.0"}], "]"}],
+                   "]"}]}]}], "|>"}]}]}]}], "]"}]}], "]"}], ",", 
+        "branchesListRaw"}], "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "==="}], "="}], "*)"}], "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"MODUL", " ", "2"}], ":", 
+     RowBox[{
+     "Katalog", " ", "za\[RHacek]\[IAcute]zen\[IAcute]", " ", "a", " ", 
+      "komponent"}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "==="}], "="}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"ClearAll", "[", 
+     RowBox[{
+     "RegisterComponent", ",", "RegisterInverterDynamics", ",", 
+      "RegisterDynamicComponent"}], "]"}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"RegisterComponent", "[", 
+      RowBox[{"type_String", ",", "params_Association"}], "]"}], ":=", 
+     RowBox[{"Switch", "[", 
+      RowBox[{"type", ",", "\"\<Slack\>\"", ",", 
+       RowBox[{"<|", 
+        RowBox[{
+         RowBox[{"\"\<type\>\"", "->", "\"\<Slack\>\""}], ",", 
+         RowBox[{"\"\<v\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<v\>\"", ",", "1.0"}], "]"}]}], ",", 
+         RowBox[{"\"\<th\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<th\>\"", ",", "0.0"}], "]"}]}]}], 
+        "|>"}], ",", "\"\<PV\>\"", ",", 
+       RowBox[{"<|", 
+        RowBox[{
+         RowBox[{"\"\<type\>\"", "->", "\"\<PV\>\""}], ",", 
+         RowBox[{"\"\<v\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<v\>\"", ",", "1.01"}], "]"}]}], ",", 
+         RowBox[{"\"\<p\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<p\>\"", ",", "0.0"}], "]"}]}]}], 
+        "|>"}], ",", "\"\<PQ\>\"", ",", 
+       RowBox[{"<|", 
+        RowBox[{
+         RowBox[{"\"\<type\>\"", "->", "\"\<PQ\>\""}], ",", 
+         RowBox[{"\"\<p\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<p\>\"", ",", "0.0"}], "]"}]}], ",", 
+         RowBox[{"\"\<q\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<q\>\"", ",", "0.0"}], "]"}]}]}], 
+        "|>"}], ",", "\"\<Generator\>\"", ",", 
+       RowBox[{"<|", 
+        RowBox[{
+         RowBox[{"\"\<type\>\"", "->", "\"\<Generator\>\""}], ",", 
+         RowBox[{"\"\<v\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<v\>\"", ",", "1.0"}], "]"}]}], ",", 
+         RowBox[{"\"\<p\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<p\>\"", ",", "0.0"}], "]"}]}], ",", 
+         RowBox[{"\"\<q_min\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<q_min\>\"", ",", 
+            RowBox[{"-", "40.0"}]}], "]"}]}], ",", 
+         RowBox[{"\"\<q_max\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<q_max\>\"", ",", "60.0"}], "]"}]}]}], 
+        "|>"}], ",", "\"\<STATCOM\>\"", ",", 
+       RowBox[{"<|", 
+        RowBox[{
+         RowBox[{"\"\<type\>\"", "->", "\"\<STATCOM\>\""}], ",", 
+         RowBox[{"\"\<v\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<v\>\"", ",", "1.02"}], "]"}]}], ",", 
+         RowBox[{"\"\<q_limits\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<limits\>\"", ",", 
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{"-", "50"}], ",", "50"}], "}"}]}], "]"}]}]}], "|>"}], 
+       ",", "\"\<BESS\>\"", ",", 
+       RowBox[{"<|", 
+        RowBox[{
+         RowBox[{"\"\<type\>\"", "->", "\"\<BESS\>\""}], ",", 
+         RowBox[{"\"\<p\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<p\>\"", ",", "0.0"}], "]"}]}], ",", 
+         RowBox[{"\"\<capacity\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<cap\>\"", ",", "60.0"}], "]"}]}]}], 
+        "|>"}], ",", "_", ",", 
+       RowBox[{"<|", 
+        RowBox[{
+         RowBox[{"\"\<type\>\"", "->", "type"}], ",", 
+         RowBox[{"\"\<p\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<p\>\"", ",", "0.0"}], "]"}]}], ",", 
+         RowBox[{"\"\<q\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<q\>\"", ",", "0.0"}], "]"}]}]}], 
+        "|>"}]}], "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"RegisterInverterDynamics", "[", 
+      RowBox[{"type_String", ",", "params_Association"}], "]"}], ":=", 
+     RowBox[{"Switch", "[", 
+      RowBox[{"type", ",", "\"\<BESS\>\"", ",", 
+       RowBox[{"<|", 
+        RowBox[{
+         RowBox[{"\"\<type\>\"", "->", "\"\<BESS\>\""}], ",", 
+         RowBox[{"\"\<p\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<p\>\"", ",", "0.0"}], "]"}]}], ",", 
+         RowBox[{"\"\<q\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<q\>\"", ",", "0.0"}], "]"}]}], ",", 
+         RowBox[{"\"\<H\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<H\>\"", ",", "3.0"}], "]"}]}], ",", 
+         RowBox[{"\"\<T_reg\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<T_reg\>\"", ",", "0.05"}], "]"}]}], ",", 
+         RowBox[{"\"\<i_limit\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<i_limit\>\"", ",", "1.2"}], "]"}]}]}], 
+        "|>"}], ",", "\"\<PV_Inverter\>\"", ",", 
+       RowBox[{"<|", 
+        RowBox[{
+         RowBox[{"\"\<type\>\"", "->", "\"\<PV_Inverter\>\""}], ",", 
+         RowBox[{"\"\<p\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<p\>\"", ",", "0.0"}], "]"}]}], ",", 
+         RowBox[{"\"\<q\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<q\>\"", ",", "0.0"}], "]"}]}], ",", 
+         RowBox[{"\"\<T_reg\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<T_reg\>\"", ",", "0.02"}], "]"}]}], ",", 
+         RowBox[{"\"\<i_limit\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<i_limit\>\"", ",", "1.1"}], "]"}]}]}], 
+        "|>"}], ",", "\"\<Wind_Turbine\>\"", ",", 
+       RowBox[{"<|", 
+        RowBox[{
+         RowBox[{"\"\<type\>\"", "->", "\"\<Wind_Turbine\>\""}], ",", 
+         RowBox[{"\"\<p\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<p\>\"", ",", "0.0"}], "]"}]}], ",", 
+         RowBox[{"\"\<q\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<q\>\"", ",", "0.0"}], "]"}]}], ",", 
+         RowBox[{"\"\<H\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<H\>\"", ",", "5.0"}], "]"}]}], ",", 
+         RowBox[{"\"\<T_reg\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<T_reg\>\"", ",", "0.1"}], "]"}]}]}], 
+        "|>"}], ",", "\"\<EV_Charger\>\"", ",", 
+       RowBox[{"<|", 
+        RowBox[{
+         RowBox[{"\"\<type\>\"", "->", "\"\<EV_Charger\>\""}], ",", 
+         RowBox[{"\"\<p\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<p\>\"", ",", "0.0"}], "]"}]}], ",", 
+         RowBox[{"\"\<q\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<q\>\"", ",", "0.0"}], "]"}]}], ",", 
+         RowBox[{"\"\<duty_cycle\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<duty_cycle\>\"", ",", "0.8"}], 
+           "]"}]}]}], "|>"}], ",", "\"\<Heat_Pump\>\"", ",", 
+       RowBox[{"<|", 
+        RowBox[{
+         RowBox[{"\"\<type\>\"", "->", "\"\<Heat_Pump\>\""}], ",", 
+         RowBox[{"\"\<p\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<p\>\"", ",", "0.0"}], "]"}]}], ",", 
+         RowBox[{"\"\<q\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<q\>\"", ",", "0.0"}], "]"}]}], ",", 
+         RowBox[{"\"\<duty_cycle\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<duty_cycle\>\"", ",", "0.7"}], 
+           "]"}]}]}], "|>"}], ",", "\"\<HVAC_Load\>\"", ",", 
+       RowBox[{"<|", 
+        RowBox[{
+         RowBox[{"\"\<type\>\"", "->", "\"\<HVAC_Load\>\""}], ",", 
+         RowBox[{"\"\<p\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<p\>\"", ",", "0.0"}], "]"}]}], ",", 
+         RowBox[{"\"\<q\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<q\>\"", ",", "0.0"}], "]"}]}], ",", 
+         RowBox[{"\"\<duty_cycle\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<duty_cycle\>\"", ",", "0.9"}], 
+           "]"}]}]}], "|>"}], ",", "\"\<STATCOM\>\"", ",", 
+       RowBox[{"<|", 
+        RowBox[{
+         RowBox[{"\"\<type\>\"", "->", "\"\<STATCOM\>\""}], ",", 
+         RowBox[{"\"\<v\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<v\>\"", ",", "1.02"}], "]"}]}], ",", 
+         RowBox[{"\"\<q_limits\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<limits\>\"", ",", 
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{"-", "50"}], ",", "50"}], "}"}]}], "]"}]}]}], "|>"}], ",",
+        "_", ",", 
+       RowBox[{"<|", 
+        RowBox[{
+         RowBox[{"\"\<type\>\"", "->", "type"}], ",", 
+         RowBox[{"\"\<p\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<p\>\"", ",", "0.0"}], "]"}]}], ",", 
+         RowBox[{"\"\<q\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<q\>\"", ",", "0.0"}], "]"}]}]}], 
+        "|>"}]}], "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"RegisterDynamicComponent", "[", 
+      RowBox[{"type_String", ",", "params_Association"}], "]"}], ":=", 
+     RowBox[{"Switch", "[", 
+      RowBox[{"type", ",", "\"\<Generator\>\"", ",", 
+       RowBox[{"<|", 
+        RowBox[{
+         RowBox[{"\"\<type\>\"", "->", "\"\<Generator\>\""}], ",", 
+         RowBox[{"\"\<v\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<v\>\"", ",", "1.0"}], "]"}]}], ",", 
+         RowBox[{"\"\<p_mech\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<p\>\"", ",", "0.0"}], "]"}]}], ",", 
+         RowBox[{"\"\<H\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<H\>\"", ",", "3.5"}], "]"}]}], ",", 
+         RowBox[{"\"\<D\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<D\>\"", ",", "1.0"}], "]"}]}], ",", 
+         RowBox[{"\"\<q_min\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<q_min\>\"", ",", 
+            RowBox[{"-", "40.0"}]}], "]"}]}], ",", 
+         RowBox[{"\"\<q_max\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<q_max\>\"", ",", "60.0"}], "]"}]}]}], 
+        "|>"}], ",", "\"\<BESS\>\"", ",", 
+       RowBox[{"<|", 
+        RowBox[{
+         RowBox[{"\"\<type\>\"", "->", "\"\<BESS\>\""}], ",", 
+         RowBox[{"\"\<p\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<p\>\"", ",", "0.0"}], "]"}]}], ",", 
+         RowBox[{"\"\<T_reg\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<T_reg\>\"", ",", "0.1"}], "]"}]}], ",", 
+         RowBox[{"\"\<capacity\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<cap\>\"", ",", "60.0"}], "]"}]}]}], 
+        "|>"}], ",", "_", ",", 
+       RowBox[{"<|", 
+        RowBox[{
+         RowBox[{"\"\<type\>\"", "->", "type"}], ",", 
+         RowBox[{"\"\<p\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<p\>\"", ",", "0.0"}], "]"}]}], ",", 
+         RowBox[{"\"\<q\>\"", "->", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"params", ",", "\"\<q\>\"", ",", "0.0"}], "]"}]}]}], 
+        "|>"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "==="}], "="}], "*)"}], "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"MODUL", " ", "3"}], ":", 
+      RowBox[{"Topologick\[YAcute]", " ", "Builder"}]}], ",", 
+     RowBox[{
+     "Admitan\[CHacek]n\[IAcute]", " ", "matice", " ", "Ybus", " ", "a", " ", 
+      "ust\[AAcute]len\[YAcute]", " ", "stav"}]}], "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "==="}], "="}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"ClearAll", "[", 
+     RowBox[{"BuildYbusWithPST", ",", "NodeP", ",", "NodeQ"}], "]"}], ";"}], 
+   "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"NodeP", "[", 
+      RowBox[{
+      "i_", ",", "vL_List", ",", "thL_List", ",", "GMat_", ",", "BMat_", ",", 
+       "n_"}], "]"}], ":=", 
+     RowBox[{
+      RowBox[{"vL", "[", 
+       RowBox[{"[", "i", "]"}], "]"}], "*", 
+      RowBox[{"Sum", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"vL", "[", 
+          RowBox[{"[", "j", "]"}], "]"}], "*", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"GMat", "[", 
+             RowBox[{"[", 
+              RowBox[{"i", ",", "j"}], "]"}], "]"}], "*", 
+            RowBox[{"Cos", "[", 
+             RowBox[{
+              RowBox[{"thL", "[", 
+               RowBox[{"[", "i", "]"}], "]"}], "-", 
+              RowBox[{"thL", "[", 
+               RowBox[{"[", "j", "]"}], "]"}]}], "]"}]}], "+", 
+           RowBox[{
+            RowBox[{"BMat", "[", 
+             RowBox[{"[", 
+              RowBox[{"i", ",", "j"}], "]"}], "]"}], "*", 
+            RowBox[{"Sin", "[", 
+             RowBox[{
+              RowBox[{"thL", "[", 
+               RowBox[{"[", "i", "]"}], "]"}], "-", 
+              RowBox[{"thL", "[", 
+               RowBox[{"[", "j", "]"}], "]"}]}], "]"}]}]}], ")"}]}], ",", 
+        RowBox[{"{", 
+         RowBox[{"j", ",", "1", ",", "n"}], "}"}]}], "]"}]}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"NodeQ", "[", 
+      RowBox[{
+      "i_", ",", "vL_List", ",", "thL_List", ",", "GMat_", ",", "BMat_", ",", 
+       "n_"}], "]"}], ":=", 
+     RowBox[{
+      RowBox[{"vL", "[", 
+       RowBox[{"[", "i", "]"}], "]"}], "*", 
+      RowBox[{"Sum", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"vL", "[", 
+          RowBox[{"[", "j", "]"}], "]"}], "*", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"GMat", "[", 
+             RowBox[{"[", 
+              RowBox[{"i", ",", "j"}], "]"}], "]"}], "*", 
+            RowBox[{"Sin", "[", 
+             RowBox[{
+              RowBox[{"thL", "[", 
+               RowBox[{"[", "i", "]"}], "]"}], "-", 
+              RowBox[{"thL", "[", 
+               RowBox[{"[", "j", "]"}], "]"}]}], "]"}]}], "-", 
+           RowBox[{
+            RowBox[{"BMat", "[", 
+             RowBox[{"[", 
+              RowBox[{"i", ",", "j"}], "]"}], "]"}], "*", 
+            RowBox[{"Cos", "[", 
+             RowBox[{
+              RowBox[{"thL", "[", 
+               RowBox[{"[", "i", "]"}], "]"}], "-", 
+              RowBox[{"thL", "[", 
+               RowBox[{"[", "j", "]"}], "]"}]}], "]"}]}]}], ")"}]}], ",", 
+        RowBox[{"{", 
+         RowBox[{"j", ",", "1", ",", "n"}], "}"}]}], "]"}]}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"BuildYbusWithPST", "[", 
+      RowBox[{"nodesList_Association", ",", "branchesList_Association"}], 
+      "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "n", ",", "nodeIndices", ",", "Ybus", ",", "i", ",", "j", ",", "zL", ",",
+          "ysL", ",", "yL", ",", "a", ",", "alpha", ",", "y11", ",", "y22", ",",
+          "y12", ",", "y21"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"n", "=", 
+         RowBox[{"Length", "[", "nodesList", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"nodeIndices", "=", 
+         RowBox[{"AssociationThread", "[", 
+          RowBox[{
+           RowBox[{"Keys", "[", "nodesList", "]"}], "->", 
+           RowBox[{"Range", "[", "n", "]"}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Ybus", "=", 
+         RowBox[{"ConstantArray", "[", 
+          RowBox[{
+           RowBox[{"0.0", "+", 
+            RowBox[{"0.0", " ", "I"}]}], ",", 
+           RowBox[{"{", 
+            RowBox[{"n", ",", "n"}], "}"}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"KeyValueMap", "[", 
+         RowBox[{
+          RowBox[{"Function", "[", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{"id", ",", "br"}], "}"}], ",", 
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"KeyExistsQ", "[", 
+                RowBox[{"nodeIndices", ",", 
+                 RowBox[{"br", "[", "\"\<from\>\"", "]"}]}], "]"}], "&&", 
+               RowBox[{"KeyExistsQ", "[", 
+                RowBox[{"nodeIndices", ",", 
+                 RowBox[{"br", "[", "\"\<to\>\"", "]"}]}], "]"}]}], ",", 
+              RowBox[{
+               RowBox[{"i", "=", 
+                RowBox[{"nodeIndices", "[", 
+                 RowBox[{"br", "[", "\"\<from\>\"", "]"}], "]"}]}], ";", 
+               "\[IndentingNewLine]", 
+               RowBox[{"j", "=", 
+                RowBox[{"nodeIndices", "[", 
+                 RowBox[{"br", "[", "\"\<to\>\"", "]"}], "]"}]}], ";", 
+               "\[IndentingNewLine]", 
+               RowBox[{"zL", "=", 
+                RowBox[{
+                 RowBox[{"(", 
+                  RowBox[{
+                   RowBox[{"br", "[", "\"\<r\>\"", "]"}], "+", 
+                   RowBox[{"I", "*", 
+                    RowBox[{"br", "[", "\"\<x\>\"", "]"}]}]}], ")"}], "*", 
+                 RowBox[{"Lookup", "[", 
+                  RowBox[{"br", ",", "\"\<length\>\"", ",", "1.0"}], 
+                  "]"}]}]}], ";", "\[IndentingNewLine]", 
+               RowBox[{"ysL", "=", 
+                RowBox[{"I", "*", 
+                 RowBox[{"(", 
+                  RowBox[{
+                   RowBox[{"Lookup", "[", 
+                    RowBox[{"br", ",", "\"\<b\>\"", ",", "0.0"}], "]"}], "*", 
+                   RowBox[{"10", "^", 
+                    RowBox[{"-", "6"}]}]}], ")"}], "*", 
+                 RowBox[{"(", 
+                  RowBox[{
+                   RowBox[{"Lookup", "[", 
+                    RowBox[{"br", ",", "\"\<length\>\"", ",", "1.0"}], "]"}], 
+                   "/", "2.0"}], ")"}]}]}], ";", "\[IndentingNewLine]", 
+               RowBox[{"yL", "=", 
+                RowBox[{"If", "[", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"Abs", "[", "zL", "]"}], ">", "0"}], ",", 
+                  RowBox[{"1.0", "/", "zL"}], ",", "0.0"}], "]"}]}], ";", 
+               "\[IndentingNewLine]", 
+               RowBox[{"a", "=", 
+                RowBox[{"Lookup", "[", 
+                 RowBox[{"br", ",", "\"\<ratio\>\"", ",", "1.0"}], "]"}]}], ";",
+                "\[IndentingNewLine]", 
+               RowBox[{"alpha", "=", 
+                RowBox[{
+                 RowBox[{"Lookup", "[", 
+                  RowBox[{"br", ",", "\"\<phase_deg\>\"", ",", "0.0"}], "]"}],
+                  "*", 
+                 RowBox[{"Pi", "/", "180.0"}]}]}], ";", "\[IndentingNewLine]", 
+               RowBox[{"If", "[", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"alpha", "=!=", "0.0"}], "||", 
+                  RowBox[{"a", "=!=", "1.0"}]}], ",", 
+                 RowBox[{
+                  RowBox[{"y11", "=", 
+                   RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"yL", "/", 
+                    RowBox[{"a", "^", "2"}]}], ")"}], "+", "ysL"}]}], ";", 
+                  "\[IndentingNewLine]", 
+                  RowBox[{"y22", "=", 
+                   RowBox[{"yL", "+", "ysL"}]}], ";", "\[IndentingNewLine]", 
+                  RowBox[{"y12", "=", 
+                   RowBox[{
+                    RowBox[{"-", "yL"}], "/", 
+                    RowBox[{"(", 
+                    RowBox[{"a", "*", 
+                    RowBox[{"Exp", "[", 
+                    RowBox[{
+                    RowBox[{"-", "I"}], "*", "alpha"}], "]"}]}], ")"}]}]}], ";",
+                   "\[IndentingNewLine]", 
+                  RowBox[{"y21", "=", 
+                   RowBox[{
+                    RowBox[{"-", "yL"}], "/", 
+                    RowBox[{"(", 
+                    RowBox[{"a", "*", 
+                    RowBox[{"Exp", "[", 
+                    RowBox[{"I", "*", "alpha"}], "]"}]}], ")"}]}]}], ";", 
+                  "\[IndentingNewLine]", 
+                  RowBox[{
+                   RowBox[{"Ybus", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "i"}], "]"}], "]"}], "+=", "y11"}], ";",
+                   "\[IndentingNewLine]", 
+                  RowBox[{
+                   RowBox[{"Ybus", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"j", ",", "j"}], "]"}], "]"}], "+=", "y22"}], ";",
+                   "\[IndentingNewLine]", 
+                  RowBox[{
+                   RowBox[{"Ybus", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "j"}], "]"}], "]"}], "+=", "y12"}], ";",
+                   "\[IndentingNewLine]", 
+                  RowBox[{
+                   RowBox[{"Ybus", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"j", ",", "i"}], "]"}], "]"}], "+=", "y21"}]}], ",", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"Ybus", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "i"}], "]"}], "]"}], "+=", 
+                   RowBox[{"yL", "+", "ysL"}]}], ";", "\[IndentingNewLine]", 
+                  RowBox[{
+                   RowBox[{"Ybus", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"j", ",", "j"}], "]"}], "]"}], "+=", 
+                   RowBox[{"yL", "+", "ysL"}]}], ";", "\[IndentingNewLine]", 
+                  RowBox[{
+                   RowBox[{"Ybus", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "j"}], "]"}], "]"}], "-=", "yL"}], ";", 
+                  "\[IndentingNewLine]", 
+                  RowBox[{
+                   RowBox[{"Ybus", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"j", ",", "i"}], "]"}], "]"}], "-=", "yL"}]}]}], 
+                "]"}]}]}], "]"}]}], "]"}], ",", "branchesList"}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"<|", 
+         RowBox[{
+          RowBox[{"\"\<n_bus\>\"", "->", "n"}], ",", 
+          RowBox[{"\"\<indices\>\"", "->", "nodeIndices"}], ",", 
+          RowBox[{"\"\<Ybus\>\"", "->", 
+           RowBox[{"N", "[", "Ybus", "]"}]}]}], "|>"}]}]}], "]"}]}], ";"}], 
+   "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"topoRes", "=", 
+     RowBox[{"BuildYbusWithPST", "[", 
+      RowBox[{"nodesDef", ",", "branchesDef"}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"nBus", "=", 
+     RowBox[{"topoRes", "[", "\"\<n_bus\>\"", "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Ybus", "=", 
+     RowBox[{"Normal", "[", 
+      RowBox[{"N", "[", 
+       RowBox[{"topoRes", "[", "\"\<Ybus\>\"", "]"}], "]"}], "]"}]}], ";"}], 
+   "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"orderedNodes", "=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"Lookup", "[", 
+        RowBox[{"nodesDef", ",", "#"}], "]"}], "&"}], "/@", 
+      RowBox[{"Keys", "[", "nodesDef", "]"}]}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"vSolFinal", "=", 
+     RowBox[{"N", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Lookup", "[", 
+         RowBox[{"#", ",", "\"\<v\>\"", ",", "1.0"}], "]"}], "&"}], "/@", 
+       "orderedNodes"}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"thSolFinal", "=", 
+     RowBox[{"N", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Lookup", "[", 
+         RowBox[{"#", ",", "\"\<th\>\"", ",", "0.0"}], "]"}], "&"}], "/@", 
+       "orderedNodes"}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"PmwFinal", "=", 
+     RowBox[{"N", "[", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"Lookup", "[", 
+           RowBox[{"#", ",", "\"\<p\>\"", ",", "0.0"}], "]"}], "&"}], "/@", 
+         "orderedNodes"}], ")"}], "*", "baseMVA"}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"QmvarFinal", "=", 
+     RowBox[{"N", "[", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"Lookup", "[", 
+           RowBox[{"#", ",", "\"\<q\>\"", ",", "0.0"}], "]"}], "&"}], "/@", 
+         "orderedNodes"}], ")"}], "*", "baseMVA"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "==="}], "="}], "*)"}], "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"MODUL", " ", "4"}], ":", 
+     RowBox[{
+     "Modelov\[AAcute]n\[IAcute]", " ", 
+      "z\[AAcute]t\[EHacek]\[ZHacek]\[IAcute]", " ", "a", " ", 
+      "soustavov\[AAcute]", " ", "energetick\[AAcute]", " ", "bilance"}]}], 
+    "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "==="}], "="}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"ClearAll", "[", 
+     RowBox[{"EvaluateLoadModel", ",", "ComputeSystemLoadBalances"}], "]"}], 
+    ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"EvaluateLoadModel", "[", 
+      RowBox[{"loadNode_Association", ",", 
+       RowBox[{"vPu_", ":", "1.0"}], ",", 
+       RowBox[{"dfHz_", ":", "0.0"}], ",", 
+       RowBox[{"baseMVAVal_", ":", "250.0"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "inService", ",", "lType", ",", "p0", ",", "q0", ",", "v0", ",", 
+         "vRatio", ",", "zipP", ",", "zipQ", ",", "dpDfPu", ",", "dqDfPu", ",",
+          "duty", ",", "isFlex", ",", "lims", ",", "pMin", ",", "pMax", ",", 
+         "pEff", ",", "qEff"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"inService", "=", 
+         RowBox[{"Lookup", "[", 
+          RowBox[{"loadNode", ",", "\"\<in_service\>\"", ",", "True"}], 
+          "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"!", 
+           RowBox[{"TrueQ", "[", "inService", "]"}]}], ",", 
+          RowBox[{"Return", "[", 
+           RowBox[{"<|", 
+            RowBox[{
+             RowBox[{"\"\<p_pu\>\"", "->", "0.0"}], ",", 
+             RowBox[{"\"\<q_pu\>\"", "->", "0.0"}], ",", 
+             RowBox[{"\"\<p_mw\>\"", "->", "0.0"}], ",", 
+             RowBox[{"\"\<q_mvar\>\"", "->", "0.0"}], ",", 
+             RowBox[{"\"\<H_s\>\"", "->", "0.0"}], ",", 
+             RowBox[{"\"\<D_pu\>\"", "->", "0.0"}], ",", 
+             RowBox[{"\"\<load_type\>\"", "->", "\"\<OutOfService\>\""}]}], 
+            "|>"}], "]"}]}], "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"lType", "=", 
+         RowBox[{"ToString", "[", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{
+           "loadNode", ",", "\"\<load_type\>\"", ",", "\"\<PQ_Constant\>\""}],
+            "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"p0", "=", 
+         RowBox[{"N", "[", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"loadNode", ",", "\"\<p\>\"", ",", 
+            RowBox[{
+             RowBox[{"Lookup", "[", 
+              RowBox[{"loadNode", ",", "\"\<p_mw\>\"", ",", "0.0"}], "]"}], "/",
+              "baseMVAVal"}]}], "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"q0", "=", 
+         RowBox[{"N", "[", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"loadNode", ",", "\"\<q\>\"", ",", 
+            RowBox[{
+             RowBox[{"Lookup", "[", 
+              RowBox[{"loadNode", ",", "\"\<q_mvar\>\"", ",", "0.0"}], "]"}], 
+             "/", "baseMVAVal"}]}], "]"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"v0", "=", 
+         RowBox[{"N", "[", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"loadNode", ",", "\"\<v\>\"", ",", "1.0"}], "]"}], "]"}]}],
+         ";", "\[IndentingNewLine]", 
+        RowBox[{"vRatio", "=", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{"v0", ">", "0"}], ",", 
+           RowBox[{
+            RowBox[{"N", "[", "vPu", "]"}], "/", "v0"}], ",", 
+           RowBox[{"N", "[", "vPu", "]"}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"dpDfPu", "=", 
+         RowBox[{
+          RowBox[{"N", "[", 
+           RowBox[{"Lookup", "[", 
+            RowBox[{"loadNode", ",", "\"\<dP_df\>\"", ",", "0.0"}], "]"}], 
+           "]"}], "/", 
+          RowBox[{"N", "[", "baseMVAVal", "]"}]}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"dqDfPu", "=", 
+         RowBox[{
+          RowBox[{"N", "[", 
+           RowBox[{"Lookup", "[", 
+            RowBox[{"loadNode", ",", "\"\<dQ_df\>\"", ",", "0.0"}], "]"}], 
+           "]"}], "/", 
+          RowBox[{"N", "[", "baseMVAVal", "]"}]}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Switch", "[", 
+         RowBox[{"lType", ",", "\"\<ZIP_Model\>\"", ",", 
+          RowBox[{
+           RowBox[{"zipP", "=", 
+            RowBox[{"N", "[", 
+             RowBox[{"Lookup", "[", 
+              RowBox[{"loadNode", ",", "\"\<zip_p\>\"", ",", 
+               RowBox[{"{", 
+                RowBox[{"0.0", ",", "0.0", ",", "1.0"}], "}"}]}], "]"}], 
+             "]"}]}], ";", "\[IndentingNewLine]", 
+           RowBox[{"zipQ", "=", 
+            RowBox[{"N", "[", 
+             RowBox[{"Lookup", "[", 
+              RowBox[{"loadNode", ",", "\"\<zip_q\>\"", ",", 
+               RowBox[{"{", 
+                RowBox[{"0.0", ",", "0.0", ",", "1.0"}], "}"}]}], "]"}], 
+             "]"}]}], ";", "\[IndentingNewLine]", 
+           RowBox[{"pEff", "=", 
+            RowBox[{
+             RowBox[{"p0", "*", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{"zipP", "[", 
+                  RowBox[{"[", "1", "]"}], "]"}], "*", 
+                 RowBox[{"vRatio", "^", "2"}]}], "+", 
+                RowBox[{
+                 RowBox[{"zipP", "[", 
+                  RowBox[{"[", "2", "]"}], "]"}], "*", "vRatio"}], "+", 
+                RowBox[{"zipP", "[", 
+                 RowBox[{"[", "3", "]"}], "]"}]}], ")"}]}], "+", 
+             RowBox[{"dpDfPu", "*", "dfHz"}]}]}], ";", "\[IndentingNewLine]", 
+           RowBox[{"qEff", "=", 
+            RowBox[{
+             RowBox[{"q0", "*", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{"zipQ", "[", 
+                  RowBox[{"[", "1", "]"}], "]"}], "*", 
+                 RowBox[{"vRatio", "^", "2"}]}], "+", 
+                RowBox[{
+                 RowBox[{"zipQ", "[", 
+                  RowBox[{"[", "2", "]"}], "]"}], "*", "vRatio"}], "+", 
+                RowBox[{"zipQ", "[", 
+                 RowBox[{"[", "3", "]"}], "]"}]}], ")"}]}], "+", 
+             RowBox[{"dqDfPu", "*", "dfHz"}]}]}]}], ",", "\"\<Motor_Load\>\"",
+           ",", 
+          RowBox[{
+           RowBox[{"pEff", "=", 
+            RowBox[{
+             RowBox[{"p0", "*", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"0.1", "*", 
+                 RowBox[{"vRatio", "^", "2"}]}], "+", "0.9"}], ")"}]}], "+", 
+             RowBox[{"dpDfPu", "*", "dfHz"}]}]}], ";", "\[IndentingNewLine]", 
+           RowBox[{"qEff", "=", 
+            RowBox[{
+             RowBox[{"q0", "*", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"0.4", "*", 
+                 RowBox[{"vRatio", "^", "2"}]}], "+", "0.6"}], ")"}]}], "+", 
+             RowBox[{"dqDfPu", "*", "dfHz"}]}]}]}], 
+          ",", "\"\<Flexible_Load\>\"", ",", 
+          RowBox[{
+           RowBox[{"isFlex", "=", 
+            RowBox[{"TrueQ", "[", 
+             RowBox[{"Lookup", "[", 
+              RowBox[{"loadNode", ",", "\"\<is_flexible\>\"", ",", "True"}], 
+              "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+           RowBox[{"duty", "=", 
+            RowBox[{"If", "[", 
+             RowBox[{"isFlex", ",", 
+              RowBox[{"N", "[", 
+               RowBox[{"Lookup", "[", 
+                RowBox[{"loadNode", ",", "\"\<duty_cycle\>\"", ",", "1.0"}], 
+                "]"}], "]"}], ",", "1.0"}], "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"lims", "=", 
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"AssociationQ", "[", 
+               RowBox[{"Lookup", "[", 
+                RowBox[{"loadNode", ",", "\"\<limits\>\"", ",", 
+                 RowBox[{"<|", "|>"}]}], "]"}], "]"}], ",", 
+              RowBox[{"Lookup", "[", 
+               RowBox[{"loadNode", ",", "\"\<limits\>\"", ",", 
+                RowBox[{"<|", "|>"}]}], "]"}], ",", 
+              RowBox[{"<|", "|>"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+           RowBox[{"pMin", "=", 
+            RowBox[{"N", "[", 
+             RowBox[{"Lookup", "[", 
+              RowBox[{"lims", ",", "\"\<p_min_pu\>\"", ",", 
+               RowBox[{"-", "Infinity"}]}], "]"}], "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"pMax", "=", 
+            RowBox[{"N", "[", 
+             RowBox[{"Lookup", "[", 
+              RowBox[{"lims", ",", "\"\<p_max_pu\>\"", ",", "Infinity"}], 
+              "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+           RowBox[{"pEff", "=", 
+            RowBox[{"Clip", "[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"p0", "*", "duty"}], "+", 
+               RowBox[{"dpDfPu", "*", "dfHz"}]}], ",", 
+              RowBox[{"{", 
+               RowBox[{"pMin", ",", "pMax"}], "}"}]}], "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"qEff", "=", 
+            RowBox[{
+             RowBox[{"q0", "*", "duty"}], "+", 
+             RowBox[{"dqDfPu", "*", "dfHz"}]}]}]}], ",", "_", ",", 
+          RowBox[{
+           RowBox[{"pEff", "=", 
+            RowBox[{"p0", "+", 
+             RowBox[{"dpDfPu", "*", "dfHz"}]}]}], ";", "\[IndentingNewLine]", 
+           RowBox[{"qEff", "=", 
+            RowBox[{"q0", "+", 
+             RowBox[{"dqDfPu", "*", "dfHz"}]}]}]}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"<|", 
+         RowBox[{
+          RowBox[{"\"\<load_type\>\"", "->", "lType"}], ",", 
+          RowBox[{"\"\<p_pu\>\"", "->", 
+           RowBox[{"N", "[", "pEff", "]"}]}], ",", 
+          RowBox[{"\"\<q_pu\>\"", "->", 
+           RowBox[{"N", "[", "qEff", "]"}]}], ",", 
+          RowBox[{"\"\<p_mw\>\"", "->", 
+           RowBox[{"N", "[", 
+            RowBox[{"pEff", "*", "baseMVAVal"}], "]"}]}], ",", 
+          RowBox[{"\"\<q_mvar\>\"", "->", 
+           RowBox[{"N", "[", 
+            RowBox[{"qEff", "*", "baseMVAVal"}], "]"}]}], ",", 
+          RowBox[{"\"\<H_s\>\"", "->", 
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{"lType", "===", "\"\<Motor_Load\>\""}], ",", 
+             RowBox[{"N", "[", 
+              RowBox[{"Lookup", "[", 
+               RowBox[{"loadNode", ",", "\"\<H\>\"", ",", "0.0"}], "]"}], 
+              "]"}], ",", "0.0"}], "]"}]}], ",", 
+          RowBox[{"\"\<D_pu\>\"", "->", 
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{"lType", "===", "\"\<Motor_Load\>\""}], ",", 
+             RowBox[{"N", "[", 
+              RowBox[{"Lookup", "[", 
+               RowBox[{"loadNode", ",", "\"\<D\>\"", ",", "0.0"}], "]"}], 
+              "]"}], ",", "0.0"}], "]"}]}]}], "|>"}]}]}], "]"}]}], ";"}], 
+   "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ComputeSystemLoadBalances", "[", 
+      RowBox[{
+      "nodesAssoc_Association", ",", "branchesAssoc_Association", ",", 
+       "vSol_List", ",", "thSol_List", ",", "indices_Association", ",", 
+       RowBox[{"baseMVAVal_", ":", "250.0"}], ",", 
+       RowBox[{"dfHz_", ":", "0.0"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "allKeys", ",", "loadKeys", ",", "busVoltages", ",", "perLoadEval", ",",
+          "byTypeSummary", ",", "busLoadInjections", ",", "totalGenMW", ",", 
+         "totalLoadMW", ",", "totalLoadMVAr", ",", "totalLossMW", ",", 
+         "eqMotorH", ",", "eqMotorD"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"allKeys", "=", 
+         RowBox[{"Keys", "[", "nodesAssoc", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"busVoltages", "=", 
+         RowBox[{"AssociationThread", "[", 
+          RowBox[{"allKeys", "->", 
+           RowBox[{"N", "[", "vSol", "]"}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"loadKeys", "=", 
+         RowBox[{"Select", "[", 
+          RowBox[{"allKeys", ",", 
+           RowBox[{
+            RowBox[{"With", "[", 
+             RowBox[{
+              RowBox[{"{", 
+               RowBox[{"nd", "=", 
+                RowBox[{"Association", "[", 
+                 RowBox[{"nodesAssoc", "[", "#", "]"}], "]"}]}], "}"}], ",", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"Lookup", "[", 
+                 RowBox[{"nd", ",", "\"\<type\>\"", ",", "\"\<\>\""}], "]"}], 
+                "===", "\"\<Load\>\""}], "||", 
+               RowBox[{"KeyExistsQ", "[", 
+                RowBox[{"nd", ",", "\"\<load_type\>\""}], "]"}]}]}], "]"}], 
+            "&"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"perLoadEval", "=", 
+         RowBox[{"Association", "[", 
+          RowBox[{"Map", "[", 
+           RowBox[{
+            RowBox[{"Function", "[", 
+             RowBox[{"lKey", ",", 
+              RowBox[{"Module", "[", 
+               RowBox[{
+                RowBox[{"{", 
+                 RowBox[{"nd", ",", "targetBus", ",", "vBus"}], "}"}], ",", 
+                RowBox[{
+                 RowBox[{"nd", "=", 
+                  RowBox[{"Association", "[", 
+                   RowBox[{"nodesAssoc", "[", "lKey", "]"}], "]"}]}], ";", 
+                 "\[IndentingNewLine]", 
+                 RowBox[{"targetBus", "=", 
+                  RowBox[{"ToString", "[", 
+                   RowBox[{"Lookup", "[", 
+                    RowBox[{"nd", ",", "\"\<bus\>\"", ",", "lKey"}], "]"}], 
+                   "]"}]}], ";", "\[IndentingNewLine]", 
+                 RowBox[{"vBus", "=", 
+                  RowBox[{"Lookup", "[", 
+                   RowBox[{"busVoltages", ",", "targetBus", ",", 
+                    RowBox[{"Lookup", "[", 
+                    RowBox[{"nd", ",", "\"\<v\>\"", ",", "1.0"}], "]"}]}], 
+                   "]"}]}], ";", "\[IndentingNewLine]", 
+                 RowBox[{"lKey", "->", 
+                  RowBox[{"Join", "[", 
+                   RowBox[{
+                    RowBox[{"<|", 
+                    RowBox[{"\"\<bus\>\"", "->", "targetBus"}], "|>"}], ",", 
+                    RowBox[{"EvaluateLoadModel", "[", 
+                    RowBox[{
+                    "nd", ",", "vBus", ",", "dfHz", ",", "baseMVAVal"}], 
+                    "]"}]}], "]"}]}]}]}], "]"}]}], "]"}], ",", "loadKeys"}], 
+           "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"byTypeSummary", "=", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Length", "[", "perLoadEval", "]"}], ">", "0"}], ",", 
+           RowBox[{"GroupBy", "[", 
+            RowBox[{
+             RowBox[{"Values", "[", "perLoadEval", "]"}], ",", 
+             RowBox[{
+              RowBox[{"#", "[", "\"\<load_type\>\"", "]"}], "&"}], ",", 
+             RowBox[{
+              RowBox[{"<|", 
+               RowBox[{
+                RowBox[{"\"\<count\>\"", "->", 
+                 RowBox[{"Length", "[", "#", "]"}]}], ",", 
+                RowBox[{"\"\<p_mw\>\"", "->", 
+                 RowBox[{"Total", "[", 
+                  RowBox[{"#", "[", 
+                   RowBox[{"[", 
+                    RowBox[{"All", ",", "\"\<p_mw\>\""}], "]"}], "]"}], 
+                  "]"}]}], ",", 
+                RowBox[{"\"\<q_mvar\>\"", "->", 
+                 RowBox[{"Total", "[", 
+                  RowBox[{"#", "[", 
+                   RowBox[{"[", 
+                    RowBox[{"All", ",", "\"\<q_mvar\>\""}], "]"}], "]"}], 
+                  "]"}]}], ",", 
+                RowBox[{"\"\<H_sum_s\>\"", "->", 
+                 RowBox[{"Total", "[", 
+                  RowBox[{"#", "[", 
+                   RowBox[{"[", 
+                    RowBox[{"All", ",", "\"\<H_s\>\""}], "]"}], "]"}], 
+                  "]"}]}], ",", 
+                RowBox[{"\"\<D_sum\>\"", "->", 
+                 RowBox[{"Total", "[", 
+                  RowBox[{"#", "[", 
+                   RowBox[{"[", 
+                    RowBox[{"All", ",", "\"\<D_pu\>\""}], "]"}], "]"}], 
+                  "]"}]}]}], "|>"}], "&"}]}], "]"}], ",", 
+           RowBox[{"<|", "|>"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"busLoadInjections", "=", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Length", "[", "perLoadEval", "]"}], ">", "0"}], ",", 
+           RowBox[{"Merge", "[", 
+            RowBox[{
+             RowBox[{"Map", "[", 
+              RowBox[{
+               RowBox[{"Function", "[", 
+                RowBox[{"item", ",", 
+                 RowBox[{
+                  RowBox[{"item", "[", "\"\<bus\>\"", "]"}], "->", 
+                  RowBox[{"<|", 
+                   RowBox[{
+                    RowBox[{"\"\<p_load_pu\>\"", "->", 
+                    RowBox[{"item", "[", "\"\<p_pu\>\"", "]"}]}], ",", 
+                    RowBox[{"\"\<q_load_pu\>\"", "->", 
+                    RowBox[{"item", "[", "\"\<q_pu\>\"", "]"}]}]}], 
+                   "|>"}]}]}], "]"}], ",", 
+               RowBox[{"Values", "[", "perLoadEval", "]"}]}], "]"}], ",", 
+             RowBox[{
+              RowBox[{"<|", 
+               RowBox[{
+                RowBox[{"\"\<p_load_pu\>\"", "->", 
+                 RowBox[{"Total", "[", 
+                  RowBox[{"#", "[", 
+                   RowBox[{"[", 
+                    RowBox[{"All", ",", "\"\<p_load_pu\>\""}], "]"}], "]"}], 
+                  "]"}]}], ",", 
+                RowBox[{"\"\<q_load_pu\>\"", "->", 
+                 RowBox[{"Total", "[", 
+                  RowBox[{"#", "[", 
+                   RowBox[{"[", 
+                    RowBox[{"All", ",", "\"\<q_load_pu\>\""}], "]"}], "]"}], 
+                  "]"}]}]}], "|>"}], "&"}]}], "]"}], ",", 
+           RowBox[{"<|", "|>"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"totalLoadMW", "=", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Length", "[", "perLoadEval", "]"}], ">", "0"}], ",", 
+           RowBox[{"Total", "[", 
+            RowBox[{
+             RowBox[{"Values", "[", "perLoadEval", "]"}], "[", 
+             RowBox[{"[", 
+              RowBox[{"All", ",", "\"\<p_mw\>\""}], "]"}], "]"}], "]"}], ",", 
+           "0.0"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"totalLoadMVAr", "=", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Length", "[", "perLoadEval", "]"}], ">", "0"}], ",", 
+           RowBox[{"Total", "[", 
+            RowBox[{
+             RowBox[{"Values", "[", "perLoadEval", "]"}], "[", 
+             RowBox[{"[", 
+              RowBox[{"All", ",", "\"\<q_mvar\>\""}], "]"}], "]"}], "]"}], ",",
+            "0.0"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"totalGenMW", "=", 
+         RowBox[{"Total", "[", 
+          RowBox[{"Map", "[", 
+           RowBox[{
+            RowBox[{"Function", "[", 
+             RowBox[{"nd", ",", 
+              RowBox[{"If", "[", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{"MemberQ", "[", 
+                  RowBox[{
+                   RowBox[{"{", 
+                    
+                    RowBox[{"\"\<Generator\>\"", ",", "\"\<PV\>\"", 
+                    ",", "\"\<PV_Inverter\>\"", ",", "\"\<Wind_Turbine\>\"", 
+                    ",", "\"\<BESS\>\""}], "}"}], ",", 
+                   RowBox[{"Lookup", "[", 
+                    RowBox[{"nd", ",", "\"\<type\>\"", ",", "\"\<\>\""}], 
+                    "]"}]}], "]"}], "&&", 
+                 RowBox[{"TrueQ", "[", 
+                  RowBox[{"Lookup", "[", 
+                   RowBox[{"nd", ",", "\"\<in_service\>\"", ",", "True"}], 
+                   "]"}], "]"}]}], ",", 
+                RowBox[{
+                 RowBox[{"N", "[", 
+                  RowBox[{"Lookup", "[", 
+                   RowBox[{"nd", ",", "\"\<p\>\"", ",", "0.0"}], "]"}], "]"}],
+                  "*", "baseMVAVal"}], ",", "0.0"}], "]"}]}], "]"}], ",", 
+            RowBox[{"Values", "[", "nodesAssoc", "]"}]}], "]"}], "]"}]}], ";",
+         "\[IndentingNewLine]", 
+        RowBox[{"totalLossMW", "=", 
+         RowBox[{"Total", "[", 
+          RowBox[{"Map", "[", 
+           RowBox[{
+            RowBox[{"Function", "[", 
+             RowBox[{"br", ",", 
+              RowBox[{"Module", "[", 
+               RowBox[{
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"u", "=", 
+                   RowBox[{"br", "[", "\"\<from\>\"", "]"}]}], ",", 
+                  RowBox[{"v", "=", 
+                   RowBox[{"br", "[", "\"\<to\>\"", "]"}]}], ",", 
+                  RowBox[{"r", "=", 
+                   RowBox[{"N", "[", 
+                    RowBox[{"br", "[", "\"\<r\>\"", "]"}], "]"}]}], ",", 
+                  RowBox[{"x", "=", 
+                   RowBox[{"N", "[", 
+                    RowBox[{"br", "[", "\"\<x\>\"", "]"}], "]"}]}], ",", "iu",
+                   ",", "iv", ",", "vu", ",", "vv", ",", "dTh", ",", "gVal", ",",
+                   "bVal", ",", "pFrom", ",", "pTo"}], "}"}], ",", 
+                RowBox[{"If", "[", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"KeyExistsQ", "[", 
+                    RowBox[{"indices", ",", "u"}], "]"}], "&&", 
+                   RowBox[{"KeyExistsQ", "[", 
+                    RowBox[{"indices", ",", "v"}], "]"}], "&&", 
+                   RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"r", "^", "2"}], "+", 
+                    RowBox[{"x", "^", "2"}]}], ")"}], ">", "0"}]}], ",", 
+                  RowBox[{
+                   RowBox[{"iu", "=", 
+                    RowBox[{"indices", "[", "u", "]"}]}], ";", 
+                   RowBox[{"iv", "=", 
+                    RowBox[{"indices", "[", "v", "]"}]}], ";", 
+                   "\[IndentingNewLine]", 
+                   RowBox[{"vu", "=", 
+                    RowBox[{"N", "[", 
+                    RowBox[{"vSol", "[", 
+                    RowBox[{"[", "iu", "]"}], "]"}], "]"}]}], ";", 
+                   RowBox[{"vv", "=", 
+                    RowBox[{"N", "[", 
+                    RowBox[{"vSol", "[", 
+                    RowBox[{"[", "iv", "]"}], "]"}], "]"}]}], ";", 
+                   "\[IndentingNewLine]", 
+                   RowBox[{"dTh", "=", 
+                    RowBox[{"N", "[", 
+                    RowBox[{
+                    RowBox[{"thSol", "[", 
+                    RowBox[{"[", "iu", "]"}], "]"}], "-", 
+                    RowBox[{"thSol", "[", 
+                    RowBox[{"[", "iv", "]"}], "]"}]}], "]"}]}], ";", 
+                   "\[IndentingNewLine]", 
+                   RowBox[{"gVal", "=", 
+                    RowBox[{"r", "/", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"r", "^", "2"}], "+", 
+                    RowBox[{"x", "^", "2"}]}], ")"}]}]}], ";", 
+                   "\[IndentingNewLine]", 
+                   RowBox[{"bVal", "=", 
+                    RowBox[{
+                    RowBox[{"-", "x"}], "/", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"r", "^", "2"}], "+", 
+                    RowBox[{"x", "^", "2"}]}], ")"}]}]}], ";", 
+                   "\[IndentingNewLine]", 
+                   RowBox[{"pFrom", "=", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"vu", "^", "2"}], "*", "gVal"}], "-", 
+                    RowBox[{"vu", "*", "vv", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"gVal", "*", 
+                    RowBox[{"Cos", "[", "dTh", "]"}]}], "+", 
+                    RowBox[{"bVal", "*", 
+                    RowBox[{"Sin", "[", "dTh", "]"}]}]}], ")"}]}]}]}], ";", 
+                   "\[IndentingNewLine]", 
+                   RowBox[{"pTo", "=", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"vv", "^", "2"}], "*", "gVal"}], "-", 
+                    RowBox[{"vv", "*", "vu", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"gVal", "*", 
+                    RowBox[{"Cos", "[", 
+                    RowBox[{"-", "dTh"}], "]"}]}], "+", 
+                    RowBox[{"bVal", "*", 
+                    RowBox[{"Sin", "[", 
+                    RowBox[{"-", "dTh"}], "]"}]}]}], ")"}]}]}]}], ";", 
+                   "\[IndentingNewLine]", 
+                   RowBox[{"Max", "[", 
+                    RowBox[{"0.0", ",", 
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"pFrom", "+", "pTo"}], ")"}], "*", 
+                    "baseMVAVal"}]}], "]"}]}], ",", "0.0"}], "]"}]}], "]"}]}],
+              "]"}], ",", 
+            RowBox[{"Values", "[", "branchesAssoc", "]"}]}], "]"}], "]"}]}], ";",
+         "\[IndentingNewLine]", 
+        RowBox[{"eqMotorH", "=", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Length", "[", "perLoadEval", "]"}], ">", "0"}], ",", 
+           RowBox[{"Total", "[", 
+            RowBox[{
+             RowBox[{"Values", "[", "perLoadEval", "]"}], "[", 
+             RowBox[{"[", 
+              RowBox[{"All", ",", "\"\<H_s\>\""}], "]"}], "]"}], "]"}], ",", 
+           "0.0"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"eqMotorD", "=", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Length", "[", "perLoadEval", "]"}], ">", "0"}], ",", 
+           RowBox[{"Total", "[", 
+            RowBox[{
+             RowBox[{"Values", "[", "perLoadEval", "]"}], "[", 
+             RowBox[{"[", 
+              RowBox[{"All", ",", "\"\<D_pu\>\""}], "]"}], "]"}], "]"}], ",", 
+           "0.0"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"<|", 
+         RowBox[{
+          RowBox[{"\"\<loads_detail\>\"", "->", "perLoadEval"}], ",", 
+          RowBox[{"\"\<summary_by_load_type\>\"", "->", "byTypeSummary"}], ",", 
+          RowBox[{"\"\<bus_load_injections\>\"", "->", "busLoadInjections"}], 
+          ",", 
+          RowBox[{"\"\<network_balance\>\"", "->", 
+           RowBox[{"<|", 
+            RowBox[{
+             RowBox[{"\"\<total_gen_scheduled_mw\>\"", "->", 
+              RowBox[{"N", "[", "totalGenMW", "]"}]}], ",", 
+             RowBox[{"\"\<total_load_mw\>\"", "->", 
+              RowBox[{"N", "[", "totalLoadMW", "]"}]}], ",", 
+             RowBox[{"\"\<total_load_mvar\>\"", "->", 
+              RowBox[{"N", "[", "totalLoadMVAr", "]"}]}], ",", 
+             RowBox[{"\"\<branch_losses_mw\>\"", "->", 
+              RowBox[{"N", "[", "totalLossMW", "]"}]}], ",", 
+             RowBox[{"\"\<slack_balance_mw\>\"", "->", 
+              RowBox[{"N", "[", 
+               RowBox[{"totalLoadMW", "+", "totalLossMW", "-", "totalGenMW"}],
+                "]"}]}], ",", 
+             RowBox[{"\"\<motor_load_H_sum_s\>\"", "->", 
+              RowBox[{"N", "[", "eqMotorH", "]"}]}], ",", 
+             RowBox[{"\"\<motor_load_D_sum_pu\>\"", "->", 
+              RowBox[{"N", "[", "eqMotorD", "]"}]}]}], "|>"}]}]}], "|>"}]}]}],
+       "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"loadBalanceRes", "=", 
+     RowBox[{"ComputeSystemLoadBalances", "[", 
+      RowBox[{
+      "nodesDef", ",", "branchesDef", ",", "vSolFinal", ",", "thSolFinal", ",", 
+       RowBox[{"topoRes", "[", "\"\<indices\>\"", "]"}], ",", "baseMVA", ",", 
+       "0.0"}], "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+    "Print", "[", "\"\<=== Souhrn bilance podle druh\[URing] z\[AAcute]t\
+\[EHacek]\[ZHacek]\[IAcute] ===\>\"", "]"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"Dataset", "[", 
+      RowBox[{"loadBalanceRes", "[", "\"\<summary_by_load_type\>\"", "]"}], 
+      "]"}], "]"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{
+    "Print", "[", "\"\<=== Celkov\[AAcute] v\[YAcute]konov\[AAcute] bilance s\
+\[IAcute]t\[EHacek] ===\>\"", "]"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"loadBalanceRes", "[", "\"\<network_balance\>\"", "]"}], "]"}], 
+    ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "==="}], "="}], "*)"}], "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"MODUL", " ", "5"}], ":", "Jakobi\[AAcute]ny"}], ",", 
+     RowBox[{
+     "maloplo\[SHacek]n\[AAcute]", " ", "stabilita", " ", "a", " ", 
+      "zapojen\[IAcute]", " ", "z\[AAcute]t\[EHacek]\[ZHacek]\[IAcute]", " ", 
+      "do", " ", "DAE"}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "==="}], "="}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"ClearAll", "[", 
+     RowBox[{
+     "ComputePowerFlowJacobian", ",", "ComputeSteadyStateFreqSensitivity", ",",
+       "ComputeDynamicDAEJacobian"}], "]"}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ComputePowerFlowJacobian", "[", 
+      RowBox[{"vL_List", ",", "thL_List", ",", "GMat_", ",", "BMat_"}], "]"}],
+      ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "n", ",", "thVars", ",", "vVars", ",", "allVars", ",", "pExprs", ",", 
+         "qExprs", ",", "exprs", ",", "jMat", ",", "subRules"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"n", "=", 
+         RowBox[{"Length", "[", "vL", "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"thVars", "=", 
+         RowBox[{"Array", "[", 
+          RowBox[{"thSym", ",", "n"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"vVars", "=", 
+         RowBox[{"Array", "[", 
+          RowBox[{"vSym", ",", "n"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"allVars", "=", 
+         RowBox[{"Join", "[", 
+          RowBox[{"thVars", ",", "vVars"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"pExprs", "=", 
+         RowBox[{"Table", "[", 
+          RowBox[{
+           RowBox[{"NodeP", "[", 
+            RowBox[{
+            "i", ",", "vVars", ",", "thVars", ",", "GMat", ",", "BMat", ",", 
+             "n"}], "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"i", ",", "1", ",", "n"}], "}"}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"qExprs", "=", 
+         RowBox[{"Table", "[", 
+          RowBox[{
+           RowBox[{"NodeQ", "[", 
+            RowBox[{
+            "i", ",", "vVars", ",", "thVars", ",", "GMat", ",", "BMat", ",", 
+             "n"}], "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"i", ",", "1", ",", "n"}], "}"}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"exprs", "=", 
+         RowBox[{"Join", "[", 
+          RowBox[{"pExprs", ",", "qExprs"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"subRules", "=", 
+         RowBox[{"Join", "[", 
+          RowBox[{
+           RowBox[{"Thread", "[", 
+            RowBox[{"thVars", "->", 
+             RowBox[{"N", "[", "thL", "]"}]}], "]"}], ",", 
+           RowBox[{"Thread", "[", 
+            RowBox[{"vVars", "->", 
+             RowBox[{"N", "[", "vL", "]"}]}], "]"}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"jMat", "=", 
+         RowBox[{"N", "[", 
+          RowBox[{
+           RowBox[{"D", "[", 
+            RowBox[{"exprs", ",", 
+             RowBox[{"{", "allVars", "}"}]}], "]"}], "/.", " ", "subRules"}], 
+          "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"<|", 
+         RowBox[{
+          RowBox[{"\"\<J_full\>\"", "->", "jMat"}], ",", 
+          RowBox[{"\"\<J_P_th\>\"", "->", 
+           RowBox[{"jMat", "[", 
+            RowBox[{"[", 
+             RowBox[{
+              RowBox[{"1", ";;", "n"}], ",", 
+              RowBox[{"1", ";;", "n"}]}], "]"}], "]"}]}], ",", 
+          RowBox[{"\"\<J_P_V\>\"", "->", 
+           RowBox[{"jMat", "[", 
+            RowBox[{"[", 
+             RowBox[{
+              RowBox[{"1", ";;", "n"}], ",", 
+              RowBox[{
+               RowBox[{"n", "+", "1"}], ";;", 
+               RowBox[{"2", " ", "n"}]}]}], "]"}], "]"}]}], ",", 
+          RowBox[{"\"\<J_Q_th\>\"", "->", 
+           RowBox[{"jMat", "[", 
+            RowBox[{"[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"n", "+", "1"}], ";;", 
+               RowBox[{"2", " ", "n"}]}], ",", 
+              RowBox[{"1", ";;", "n"}]}], "]"}], "]"}]}], ",", 
+          RowBox[{"\"\<J_Q_V\>\"", "->", 
+           RowBox[{"jMat", "[", 
+            RowBox[{"[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"n", "+", "1"}], ";;", 
+               RowBox[{"2", " ", "n"}]}], ",", 
+              RowBox[{
+               RowBox[{"n", "+", "1"}], ";;", 
+               RowBox[{"2", " ", "n"}]}]}], "]"}], "]"}]}]}], "|>"}]}]}], 
+      "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ComputeSteadyStateFreqSensitivity", "[", 
+      RowBox[{
+      "nodesAssoc_Association", ",", "baseMVAWal_", ",", "fNominal_"}], "]"}],
+      ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "keys", ",", "betaTotalPU", ",", "lambdaMWperHz", ",", 
+         "sensHzPerMW"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"keys", "=", 
+         RowBox[{"Keys", "[", "nodesAssoc", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"betaTotalPU", "=", 
+         RowBox[{"Total", "[", 
+          RowBox[{
+           RowBox[{"Function", "[", 
+            RowBox[{"k", ",", 
+             RowBox[{"Module", "[", 
+              RowBox[{
+               RowBox[{"{", 
+                RowBox[{"nd", ",", "dVal", ",", "rVal", ",", "regTerm"}], 
+                "}"}], ",", 
+               RowBox[{
+                RowBox[{"nd", "=", 
+                 RowBox[{"Association", "[", 
+                  RowBox[{"nodesAssoc", "[", "k", "]"}], "]"}]}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{"dVal", "=", 
+                 RowBox[{"N", "[", 
+                  RowBox[{"Lookup", "[", 
+                   RowBox[{"nd", ",", "\"\<D\>\"", ",", "0.0"}], "]"}], 
+                  "]"}]}], ";", "\[IndentingNewLine]", 
+                RowBox[{"rVal", "=", 
+                 RowBox[{"Lookup", "[", 
+                  RowBox[{"nd", ",", "\"\<R\>\"", ",", "None"}], "]"}]}], ";",
+                 "\[IndentingNewLine]", 
+                RowBox[{"regTerm", "=", 
+                 RowBox[{"If", "[", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"NumericQ", "[", "rVal", "]"}], "&&", 
+                    RowBox[{"rVal", ">", "0"}]}], ",", 
+                   RowBox[{"1.0", "/", 
+                    RowBox[{"N", "[", "rVal", "]"}]}], ",", "0.0"}], "]"}]}], 
+                ";", "\[IndentingNewLine]", 
+                RowBox[{"dVal", "+", "regTerm"}]}]}], "]"}]}], "]"}], "/@", 
+           "keys"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"betaTotalPU", "<=", "0.0"}], ",", 
+          RowBox[{"betaTotalPU", "=", "1.0"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"lambdaMWperHz", "=", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"betaTotalPU", "*", 
+            RowBox[{"N", "[", "baseMVAWal", "]"}]}], ")"}], "/", 
+          RowBox[{"N", "[", "fNominal", "]"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"sensHzPerMW", "=", 
+         RowBox[{
+          RowBox[{"-", "1.0"}], "/", "lambdaMWperHz"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"<|", 
+         RowBox[{
+          RowBox[{"\"\<beta_total_pu\>\"", "->", "betaTotalPU"}], ",", 
+          RowBox[{"\"\<lambda_MW_per_Hz\>\"", "->", "lambdaMWperHz"}], ",", 
+          RowBox[{"\"\<df_dP_Hz_per_MW\>\"", "->", "sensHzPerMW"}]}], 
+         "|>"}]}]}], "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ComputeDynamicDAEJacobian", "[", 
+      RowBox[{
+      "topology_Association", ",", "nodesAssoc_Association", ",", "vL_List", ",",
+        "thL_List", ",", 
+       RowBox[{"loadBalAssoc_Association", ":", 
+        RowBox[{"<|", "|>"}]}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "n", ",", "GMat", ",", "BMat", ",", "indices", ",", "keys", ",", 
+         "genNodes", ",", "nGen", ",", "netBal", ",", "loadsDet", ",", 
+         "hLoadSum", ",", "dMotorSum", ",", "dpDfTotalMWHz", ",", 
+         "dFreqSensPu", ",", "dLoadTotalPu", ",", "dVars", ",", "wVars", ",", 
+         "stateVars", ",", "pInVars", ",", "thNetExprs", ",", "genPosMap", ",",
+          "dEqs", ",", "wEqs", ",", "allEqs", ",", "subRules", ",", "aMat", ",",
+          "bMat", ",", "eigVals", ",", "rocofSensHzPerSecMW"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"n", "=", 
+         RowBox[{"topology", "[", "\"\<n_bus\>\"", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"GMat", "=", 
+         RowBox[{"N", "[", 
+          RowBox[{"Re", "[", 
+           RowBox[{"topology", "[", "\"\<Ybus\>\"", "]"}], "]"}], "]"}]}], ";",
+         "\[IndentingNewLine]", 
+        RowBox[{"BMat", "=", 
+         RowBox[{"N", "[", 
+          RowBox[{"Im", "[", 
+           RowBox[{"topology", "[", "\"\<Ybus\>\"", "]"}], "]"}], "]"}]}], ";",
+         "\[IndentingNewLine]", 
+        RowBox[{"indices", "=", 
+         RowBox[{"topology", "[", "\"\<indices\>\"", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"keys", "=", 
+         RowBox[{"Keys", "[", "nodesAssoc", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"genNodes", "=", 
+         RowBox[{"Select", "[", 
+          RowBox[{"keys", ",", 
+           RowBox[{
+            RowBox[{"With", "[", 
+             RowBox[{
+              RowBox[{"{", 
+               RowBox[{"nd", "=", 
+                RowBox[{"Association", "[", 
+                 RowBox[{"nodesAssoc", "[", "#", "]"}], "]"}]}], "}"}], ",", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"Lookup", "[", 
+                 RowBox[{"nd", ",", "\"\<type\>\"", ",", "\"\<PQ\>\""}], 
+                 "]"}], "===", "\"\<Generator\>\""}], "||", 
+               RowBox[{"KeyExistsQ", "[", 
+                RowBox[{"nd", ",", "\"\<H\>\""}], "]"}]}]}], "]"}], "&"}]}], 
+          "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"nGen", "=", 
+         RowBox[{"Length", "[", "genNodes", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"nGen", "==", "0"}], ",", 
+          RowBox[{"Return", "[", 
+           RowBox[{"<|", 
+            
+            RowBox[{"\"\<error\>\"", 
+             "->", "\"\<V s\[IAcute]ti nebyl nalezen \[ZHacek]\[AAcute]dn\
+\[YAcute] gener\[AAcute]tor s parametrem H.\>\""}], "|>"}], "]"}]}], "]"}], ";",
+         "\[IndentingNewLine]", 
+        RowBox[{"netBal", "=", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{"AssociationQ", "[", "loadBalAssoc", "]"}], ",", 
+           RowBox[{"Lookup", "[", 
+            RowBox[{"loadBalAssoc", ",", "\"\<network_balance\>\"", ",", 
+             RowBox[{"<|", "|>"}]}], "]"}], ",", 
+           RowBox[{"<|", "|>"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"loadsDet", "=", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{"AssociationQ", "[", "loadBalAssoc", "]"}], ",", 
+           RowBox[{"Lookup", "[", 
+            RowBox[{"loadBalAssoc", ",", "\"\<loads_detail\>\"", ",", 
+             RowBox[{"<|", "|>"}]}], "]"}], ",", 
+           RowBox[{"<|", "|>"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"hLoadSum", "=", 
+         RowBox[{"N", "[", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"netBal", ",", "\"\<motor_load_H_sum_s\>\"", ",", "0.0"}], 
+           "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"dMotorSum", "=", 
+         RowBox[{"N", "[", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"netBal", ",", "\"\<motor_load_D_sum_pu\>\"", ",", "0.0"}],
+            "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"dpDfTotalMWHz", "=", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"AssociationQ", "[", "loadsDet", "]"}], "&&", 
+            RowBox[{
+             RowBox[{"Length", "[", "loadsDet", "]"}], ">", "0"}]}], ",", 
+           RowBox[{"Total", "[", 
+            RowBox[{"Map", "[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"N", "[", 
+                RowBox[{"Lookup", "[", 
+                 RowBox[{
+                  RowBox[{"Association", "[", 
+                   RowBox[{"Lookup", "[", 
+                    RowBox[{"nodesAssoc", ",", "#", ",", 
+                    RowBox[{"<|", "|>"}]}], "]"}], "]"}], ",", "\"\<dP_df\>\"",
+                   ",", "0.0"}], "]"}], "]"}], "&"}], ",", 
+              RowBox[{"Keys", "[", "loadsDet", "]"}]}], "]"}], "]"}], ",", 
+           "0.0"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"dFreqSensPu", "=", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"dpDfTotalMWHz", "*", 
+            RowBox[{"N", "[", "f", "]"}]}], ")"}], "/", 
+          RowBox[{"N", "[", "baseMVA", "]"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"dLoadTotalPu", "=", 
+         RowBox[{"dMotorSum", "+", "dFreqSensPu"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"dVars", "=", 
+         RowBox[{"Array", "[", 
+          RowBox[{"dSym", ",", "nGen"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"wVars", "=", 
+         RowBox[{"Array", "[", 
+          RowBox[{"wSym", ",", "nGen"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"stateVars", "=", 
+         RowBox[{"Join", "[", 
+          RowBox[{"dVars", ",", "wVars"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"pInVars", "=", 
+         RowBox[{"Array", "[", 
+          RowBox[{"dpSym", ",", "nGen"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"genPosMap", "=", 
+         RowBox[{"AssociationThread", "[", 
+          RowBox[{"genNodes", "->", 
+           RowBox[{"Range", "[", "nGen", "]"}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"thNetExprs", "=", 
+         RowBox[{"Table", "[", 
+          RowBox[{
+           RowBox[{"With", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{"busKey", "=", 
+               RowBox[{"keys", "[", 
+                RowBox[{"[", "idx", "]"}], "]"}]}], "}"}], ",", 
+             RowBox[{"If", "[", 
+              RowBox[{
+               RowBox[{"KeyExistsQ", "[", 
+                RowBox[{"genPosMap", ",", "busKey"}], "]"}], ",", 
+               RowBox[{"dVars", "[", 
+                RowBox[{"[", 
+                 RowBox[{"genPosMap", "[", "busKey", "]"}], "]"}], "]"}], ",", 
+               RowBox[{"N", "[", 
+                RowBox[{"thL", "[", 
+                 RowBox[{"[", "idx", "]"}], "]"}], "]"}]}], "]"}]}], "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"idx", ",", "1", ",", "n"}], "}"}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"dEqs", "=", 
+         RowBox[{"Table", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"N", "[", "omegaSys", "]"}], "*", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"wVars", "[", 
+               RowBox[{"[", "g", "]"}], "]"}], "-", "1.0"}], ")"}]}], ",", 
+           RowBox[{"{", 
+            RowBox[{"g", ",", "1", ",", "nGen"}], "}"}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"wEqs", "=", 
+         RowBox[{"Table", "[", 
+          RowBox[{
+           RowBox[{"Module", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{
+              "busKey", ",", "idx", ",", "nd", ",", "hGen", ",", "dGen", ",", 
+               "hEff", ",", "dEff", ",", "pMech0", ",", "pElecExpr"}], "}"}], 
+             ",", 
+             RowBox[{
+              RowBox[{"busKey", "=", 
+               RowBox[{"genNodes", "[", 
+                RowBox[{"[", "g", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+              RowBox[{"idx", "=", 
+               RowBox[{"indices", "[", "busKey", "]"}]}], ";", 
+              "\[IndentingNewLine]", 
+              RowBox[{"nd", "=", 
+               RowBox[{"Association", "[", 
+                RowBox[{"nodesAssoc", "[", "busKey", "]"}], "]"}]}], ";", 
+              "\[IndentingNewLine]", 
+              RowBox[{"hGen", "=", 
+               RowBox[{"N", "[", 
+                RowBox[{"Lookup", "[", 
+                 RowBox[{"nd", ",", "\"\<H\>\"", ",", "3.5"}], "]"}], "]"}]}],
+               ";", "\[IndentingNewLine]", 
+              RowBox[{"dGen", "=", 
+               RowBox[{"N", "[", 
+                RowBox[{"Lookup", "[", 
+                 RowBox[{"nd", ",", "\"\<D\>\"", ",", "1.0"}], "]"}], "]"}]}],
+               ";", "\[IndentingNewLine]", 
+              RowBox[{"hEff", "=", 
+               RowBox[{"Max", "[", 
+                RowBox[{"0.05", ",", 
+                 RowBox[{"hGen", "+", 
+                  RowBox[{"hLoadSum", "/", "nGen"}]}]}], "]"}]}], ";", 
+              "\[IndentingNewLine]", 
+              RowBox[{"dEff", "=", 
+               RowBox[{"dGen", "+", 
+                RowBox[{"dLoadTotalPu", "/", "nGen"}]}]}], ";", 
+              "\[IndentingNewLine]", 
+              RowBox[{"pMech0", "=", 
+               RowBox[{"N", "[", 
+                RowBox[{"Lookup", "[", 
+                 RowBox[{"nd", ",", "\"\<p\>\"", ",", "0.0"}], "]"}], "]"}]}],
+               ";", "\[IndentingNewLine]", 
+              RowBox[{"pElecExpr", "=", 
+               RowBox[{"NodeP", "[", 
+                RowBox[{"idx", ",", 
+                 RowBox[{"N", "[", "vL", "]"}], ",", "thNetExprs", ",", 
+                 "GMat", ",", "BMat", ",", "n"}], "]"}]}], ";", 
+              "\[IndentingNewLine]", 
+              RowBox[{
+               RowBox[{"(", 
+                RowBox[{"pMech0", "+", 
+                 RowBox[{"pInVars", "[", 
+                  RowBox[{"[", "g", "]"}], "]"}], "-", "pElecExpr", "-", 
+                 RowBox[{"dEff", "*", 
+                  RowBox[{"(", 
+                   RowBox[{
+                    RowBox[{"wVars", "[", 
+                    RowBox[{"[", "g", "]"}], "]"}], "-", "1.0"}], ")"}]}]}], 
+                ")"}], "/", 
+               RowBox[{"(", 
+                RowBox[{"2.0", "*", "hEff"}], ")"}]}]}]}], "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"g", ",", "1", ",", "nGen"}], "}"}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"allEqs", "=", 
+         RowBox[{"Join", "[", 
+          RowBox[{"dEqs", ",", "wEqs"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"subRules", "=", 
+         RowBox[{"Join", "[", 
+          RowBox[{
+           RowBox[{"Table", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"dVars", "[", 
+               RowBox[{"[", "g", "]"}], "]"}], "->", 
+              RowBox[{"N", "[", 
+               RowBox[{"thL", "[", 
+                RowBox[{"[", 
+                 RowBox[{"indices", "[", 
+                  RowBox[{"genNodes", "[", 
+                   RowBox[{"[", "g", "]"}], "]"}], "]"}], "]"}], "]"}], 
+               "]"}]}], ",", 
+             RowBox[{"{", 
+              RowBox[{"g", ",", "1", ",", "nGen"}], "}"}]}], "]"}], ",", 
+           RowBox[{"Table", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"wVars", "[", 
+               RowBox[{"[", "g", "]"}], "]"}], "->", "1.0"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"g", ",", "1", ",", "nGen"}], "}"}]}], "]"}], ",", 
+           RowBox[{"Table", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"pInVars", "[", 
+               RowBox[{"[", "g", "]"}], "]"}], "->", "0.0"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"g", ",", "1", ",", "nGen"}], "}"}]}], "]"}]}], "]"}]}],
+         ";", "\[IndentingNewLine]", 
+        RowBox[{"aMat", "=", 
+         RowBox[{"N", "[", 
+          RowBox[{
+           RowBox[{"D", "[", 
+            RowBox[{"allEqs", ",", 
+             RowBox[{"{", "stateVars", "}"}]}], "]"}], "/.", " ", 
+           "subRules"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"bMat", "=", 
+         RowBox[{"N", "[", 
+          RowBox[{
+           RowBox[{"D", "[", 
+            RowBox[{"allEqs", ",", 
+             RowBox[{"{", "pInVars", "}"}]}], "]"}], "/.", " ", "subRules"}], 
+          "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"eigVals", "=", 
+         RowBox[{"Eigenvalues", "[", "aMat", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"rocofSensHzPerSecMW", "=", 
+         RowBox[{"Association", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"Module", "[", 
+             RowBox[{
+              RowBox[{"{", 
+               RowBox[{"busKey", ",", "nd", ",", "hGen", ",", "hEff"}], "}"}],
+               ",", 
+              RowBox[{
+               RowBox[{"busKey", "=", 
+                RowBox[{"genNodes", "[", 
+                 RowBox[{"[", "g", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+               RowBox[{"nd", "=", 
+                RowBox[{"Association", "[", 
+                 RowBox[{"nodesAssoc", "[", "busKey", "]"}], "]"}]}], ";", 
+               "\[IndentingNewLine]", 
+               RowBox[{"hGen", "=", 
+                RowBox[{"N", "[", 
+                 RowBox[{"Lookup", "[", 
+                  RowBox[{"nd", ",", "\"\<H\>\"", ",", "3.5"}], "]"}], 
+                 "]"}]}], ";", "\[IndentingNewLine]", 
+               RowBox[{"hEff", "=", 
+                RowBox[{"Max", "[", 
+                 RowBox[{"0.05", ",", 
+                  RowBox[{"hGen", "+", 
+                   RowBox[{"hLoadSum", "/", "nGen"}]}]}], "]"}]}], ";", 
+               "\[IndentingNewLine]", 
+               RowBox[{"busKey", "->", 
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"N", "[", "f", "]"}], "/", 
+                  RowBox[{"(", 
+                   RowBox[{"2.0", "*", "hEff", "*", 
+                    RowBox[{"N", "[", "baseMVA", "]"}]}], ")"}]}], 
+                 ")"}]}]}]}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"g", ",", "1", ",", "nGen"}], "}"}]}], "]"}], "]"}]}], ";",
+         "\[IndentingNewLine]", 
+        RowBox[{"<|", 
+         RowBox[{
+          RowBox[{"\"\<gen_nodes\>\"", "->", "genNodes"}], ",", 
+          RowBox[{"\"\<A_matrix\>\"", "->", "aMat"}], ",", 
+          RowBox[{"\"\<B_matrix\>\"", "->", "bMat"}], ",", 
+          RowBox[{"\"\<eigenvalues\>\"", "->", "eigVals"}], ",", 
+          RowBox[{"\"\<is_small_signal_stable\>\"", "->", 
+           RowBox[{
+            RowBox[{"Max", "[", 
+             RowBox[{"Re", "[", "eigVals", "]"}], "]"}], "<=", 
+            RowBox[{"10", "^", 
+             RowBox[{"-", "9"}]}]}]}], ",", 
+          
+          RowBox[{"\"\<rocof_sens_Hz_per_s_MW\>\"", "->", 
+           "rocofSensHzPerSecMW"}], ",", 
+          RowBox[{"\"\<load_H_sum_s\>\"", "->", "hLoadSum"}], ",", 
+          RowBox[{"\"\<load_D_total_pu\>\"", "->", "dLoadTotalPu"}]}], 
+         "|>"}]}]}], "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"pfJacRes", "=", 
+     RowBox[{"ComputePowerFlowJacobian", "[", 
+      RowBox[{"vSolFinal", ",", "thSolFinal", ",", 
+       RowBox[{"Re", "[", "Ybus", "]"}], ",", 
+       RowBox[{"Im", "[", "Ybus", "]"}]}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"ssFreqRes", "=", 
+     RowBox[{"ComputeSteadyStateFreqSensitivity", "[", 
+      RowBox[{"nodesDef", ",", "baseMVA", ",", "f"}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"dynJacRes", "=", 
+     RowBox[{"ComputeDynamicDAEJacobian", "[", 
+      RowBox[{
+      "topoRes", ",", "nodesDef", ",", "vSolFinal", ",", "thSolFinal", ",", 
+       "loadBalanceRes"}], "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<\:2714 Ust\[AAcute]len\[AAcute] citlivost frekvence df/dP: \
+\>\"", ",", 
+      RowBox[{"ssFreqRes", "[", "\"\<df_dP_Hz_per_MW\>\"", "]"}], 
+      ",", "\"\< Hz/MW\>\""}], "]"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<\:2714 Malosign\[AAcute]lov\[AAcute] stabilita (DAE vlastn\
+\[IAcute] \[CHacek]\[IAcute]sla): \>\"", ",", 
+      RowBox[{"dynJacRes", "[", "\"\<is_small_signal_stable\>\"", "]"}]}], 
+     "]"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<\:2714 RoCoF citlivosti gener\[AAcute]tor\[URing] \
+[Hz/(s*MW)]: \>\"", ",", 
+      RowBox[{"dynJacRes", "[", "\"\<rocof_sens_Hz_per_s_MW\>\"", "]"}]}], 
+     "]"}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "==="}], "="}], "*)"}], "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"MODUL", " ", "6"}], "&"}], " ", "7"}], ":", 
+     RowBox[{"P\[RHacek]echodov\[AAcute]", " ", "simulace", " ", "NDSolve", " ", 
+      RowBox[{"(", 
+       RowBox[{"s", " ", "BESS", " ", "a", " ", "flexibilitou"}], ")"}]}]}], 
+    "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "==="}], "="}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"ClearAll", "[", "RunTransientSimulation", "]"}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"RunTransientSimulation", "[", 
+      RowBox[{
+      "nodesAssoc_Association", ",", "loadBal_Association", ",", 
+       "dynRes_Association", ",", 
+       RowBox[{"baseMVAVal_", ":", "250.0"}], ",", 
+       RowBox[{"fNomVal_", ":", "50.0"}], ",", 
+       RowBox[{"stepDistMW_", ":", "20.0"}], ",", 
+       RowBox[{"tEvent_", ":", "1.0"}], ",", 
+       RowBox[{"tEnd_", ":", "15.0"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "genKeys", ",", "bessKeys", ",", "flexKeys", ",", "hGenSum", ",", 
+         "dGenSum", ",", "rVals", ",", "rEq", ",", "netBal", ",", "loadsDet", 
+         ",", "hLoadSum", ",", "dMotorSum", ",", "dpDfTotalMWHz", ",", 
+         "dFreqSensPu", ",", "bessGainPuPerHz", ",", "flexGainPuPerHz", ",", 
+         "hTotal", ",", "dTotal", ",", "kSync", ",", "tGov", ",", "delta", ",",
+          "dfPu", ",", "dPg", ",", "dPbess", ",", "dPflex", ",", "t", ",", 
+         "pDistPu", ",", "eqs", ",", "ic", ",", "sol", ",", "fHzFunc", ",", 
+         "pDistMWFunc", ",", "pGenMWFunc", ",", "pBessMWFunc", ",", 
+         "pFlexMWFunc", ",", "fSamples"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"genKeys", "=", 
+         RowBox[{"Lookup", "[", 
+          RowBox[{"dynRes", ",", "\"\<gen_nodes\>\"", ",", 
+           RowBox[{"Select", "[", 
+            RowBox[{
+             RowBox[{"Keys", "[", "nodesAssoc", "]"}], ",", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"ToString", "[", 
+                RowBox[{"Lookup", "[", 
+                 RowBox[{
+                  RowBox[{"Association", "[", 
+                   RowBox[{"nodesAssoc", "[", "#", "]"}], "]"}], 
+                  ",", "\"\<type\>\"", ",", "\"\<\>\""}], "]"}], "]"}], 
+               "===", "\"\<Generator\>\""}], "&"}]}], "]"}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"bessKeys", "=", 
+         RowBox[{"Select", "[", 
+          RowBox[{
+           RowBox[{"Keys", "[", "nodesAssoc", "]"}], ",", 
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"ToString", "[", 
+               RowBox[{"Lookup", "[", 
+                RowBox[{
+                 RowBox[{"Association", "[", 
+                  RowBox[{"nodesAssoc", "[", "#", "]"}], "]"}], 
+                 ",", "\"\<type\>\"", ",", "\"\<\>\""}], "]"}], "]"}], 
+              "===", "\"\<BESS\>\""}], "&&", 
+             RowBox[{"TrueQ", "[", 
+              RowBox[{"Lookup", "[", 
+               RowBox[{
+                RowBox[{"Association", "[", 
+                 RowBox[{"nodesAssoc", "[", "#", "]"}], "]"}], 
+                ",", "\"\<in_service\>\"", ",", "True"}], "]"}], "]"}]}], 
+            "&"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"flexKeys", "=", 
+         RowBox[{"Select", "[", 
+          RowBox[{
+           RowBox[{"Keys", "[", "nodesAssoc", "]"}], ",", 
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"ToString", "[", 
+               RowBox[{"Lookup", "[", 
+                RowBox[{
+                 RowBox[{"Association", "[", 
+                  RowBox[{"nodesAssoc", "[", "#", "]"}], "]"}], 
+                 ",", "\"\<load_type\>\"", ",", "\"\<\>\""}], "]"}], "]"}], 
+              "===", "\"\<Flexible_Load\>\""}], "&&", 
+             RowBox[{"TrueQ", "[", 
+              RowBox[{"Lookup", "[", 
+               RowBox[{
+                RowBox[{"Association", "[", 
+                 RowBox[{"nodesAssoc", "[", "#", "]"}], "]"}], 
+                ",", "\"\<is_flexible\>\"", ",", "True"}], "]"}], "]"}], "&&", 
+             RowBox[{"TrueQ", "[", 
+              RowBox[{"Lookup", "[", 
+               RowBox[{
+                RowBox[{"Association", "[", 
+                 RowBox[{"nodesAssoc", "[", "#", "]"}], "]"}], 
+                ",", "\"\<in_service\>\"", ",", "True"}], "]"}], "]"}]}], 
+            "&"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"hGenSum", "=", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Length", "[", "genKeys", "]"}], ">", "0"}], ",", 
+           RowBox[{"Total", "[", 
+            RowBox[{"Map", "[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"N", "[", 
+                RowBox[{"Lookup", "[", 
+                 RowBox[{
+                  RowBox[{"Association", "[", 
+                   RowBox[{"nodesAssoc", "[", "#", "]"}], "]"}], 
+                  ",", "\"\<H\>\"", ",", "3.5"}], "]"}], "]"}], "&"}], ",", 
+              "genKeys"}], "]"}], "]"}], ",", "3.5"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"dGenSum", "=", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Length", "[", "genKeys", "]"}], ">", "0"}], ",", 
+           RowBox[{"Total", "[", 
+            RowBox[{"Map", "[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"N", "[", 
+                RowBox[{"Lookup", "[", 
+                 RowBox[{
+                  RowBox[{"Association", "[", 
+                   RowBox[{"nodesAssoc", "[", "#", "]"}], "]"}], 
+                  ",", "\"\<D\>\"", ",", "1.0"}], "]"}], "]"}], "&"}], ",", 
+              "genKeys"}], "]"}], "]"}], ",", "1.0"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"rVals", "=", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Length", "[", "genKeys", "]"}], ">", "0"}], ",", 
+           RowBox[{"Map", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"N", "[", 
+               RowBox[{"Lookup", "[", 
+                RowBox[{
+                 RowBox[{"Association", "[", 
+                  RowBox[{"nodesAssoc", "[", "#", "]"}], "]"}], 
+                 ",", "\"\<R\>\"", ",", "0.05"}], "]"}], "]"}], "&"}], ",", 
+             "genKeys"}], "]"}], ",", 
+           RowBox[{"{", "0.05", "}"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"rEq", "=", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{"Length", "[", "rVals", "]"}], ">", "0"}], "&&", 
+            RowBox[{"AllTrue", "[", 
+             RowBox[{"rVals", ",", 
+              RowBox[{
+               RowBox[{"#", ">", "0"}], "&"}]}], "]"}]}], ",", 
+           RowBox[{"1.0", "/", 
+            RowBox[{"Total", "[", 
+             RowBox[{"1.0", "/", "rVals"}], "]"}]}], ",", "0.05"}], "]"}]}], ";",
+         "\[IndentingNewLine]", 
+        RowBox[{"netBal", "=", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{"AssociationQ", "[", "loadBal", "]"}], ",", 
+           RowBox[{"Lookup", "[", 
+            RowBox[{"loadBal", ",", "\"\<network_balance\>\"", ",", 
+             RowBox[{"<|", "|>"}]}], "]"}], ",", 
+           RowBox[{"<|", "|>"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"loadsDet", "=", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{"AssociationQ", "[", "loadBal", "]"}], ",", 
+           RowBox[{"Lookup", "[", 
+            RowBox[{"loadBal", ",", "\"\<loads_detail\>\"", ",", 
+             RowBox[{"<|", "|>"}]}], "]"}], ",", 
+           RowBox[{"<|", "|>"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"hLoadSum", "=", 
+         RowBox[{"N", "[", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"netBal", ",", "\"\<motor_load_H_sum_s\>\"", ",", "0.0"}], 
+           "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"dMotorSum", "=", 
+         RowBox[{"N", "[", 
+          RowBox[{"Lookup", "[", 
+           RowBox[{"netBal", ",", "\"\<motor_load_D_sum_pu\>\"", ",", "0.0"}],
+            "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"dpDfTotalMWHz", "=", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"AssociationQ", "[", "loadsDet", "]"}], "&&", 
+            RowBox[{
+             RowBox[{"Length", "[", "loadsDet", "]"}], ">", "0"}]}], ",", 
+           RowBox[{"Total", "[", 
+            RowBox[{"Map", "[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"N", "[", 
+                RowBox[{"Lookup", "[", 
+                 RowBox[{
+                  RowBox[{"Association", "[", 
+                   RowBox[{"Lookup", "[", 
+                    RowBox[{"nodesAssoc", ",", "#", ",", 
+                    RowBox[{"<|", "|>"}]}], "]"}], "]"}], ",", "\"\<dP_df\>\"",
+                   ",", "0.0"}], "]"}], "]"}], "&"}], ",", 
+              RowBox[{"Keys", "[", "loadsDet", "]"}]}], "]"}], "]"}], ",", 
+           "0.0"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"dFreqSensPu", "=", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"dpDfTotalMWHz", "*", 
+            RowBox[{"N", "[", "fNomVal", "]"}]}], ")"}], "/", 
+          RowBox[{"N", "[", "baseMVAVal", "]"}]}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", 
+         RowBox[{
+         "Rychl\[YAcute]", " ", "frekven\[CHacek]n\[IAcute]", " ", 
+          "z\[AAcute]sah", " ", 
+          RowBox[{"BESS", "[", 
+           RowBox[{
+            RowBox[{"p", ".", "u", ".", "v\[YAcute]konu"}], " ", "na", " ", 
+            "1", " ", 
+            RowBox[{"p", ".", "u", ".", "df"}]}], "]"}], " ", "a", " ", 
+          "odleh\[CHacek]en\[IAcute]", " ", "flexibiln\[IAcute]ch", " ", 
+          "z\[AAcute]t\[EHacek]\[ZHacek]\[IAcute]"}], "*)"}], 
+        RowBox[{"bessGainPuPerHz", "=", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Length", "[", "bessKeys", "]"}], ">", "0"}], ",", 
+           RowBox[{"2.0", "*", 
+            RowBox[{"Length", "[", "bessKeys", "]"}]}], ",", "0.0"}], "]"}]}],
+         ";", "\[IndentingNewLine]", 
+        RowBox[{"flexGainPuPerHz", "=", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Length", "[", "flexKeys", "]"}], ">", "0"}], ",", 
+           RowBox[{"1.0", "*", 
+            RowBox[{"Length", "[", "flexKeys", "]"}]}], ",", "0.0"}], "]"}]}],
+         ";", "\[IndentingNewLine]", 
+        RowBox[{"hTotal", "=", 
+         RowBox[{"Max", "[", 
+          RowBox[{"0.1", ",", 
+           RowBox[{"hGenSum", "+", "hLoadSum"}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"dTotal", "=", 
+         RowBox[{"dGenSum", "+", "dMotorSum", "+", "dFreqSensPu"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"kSync", "=", "0.05"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"tGov", "=", "0.5"}], ";", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"pDistPu", "[", "t_", "]"}], ":=", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"N", "[", "stepDistMW", "]"}], "/", 
+            RowBox[{"N", "[", "baseMVAVal", "]"}]}], ")"}], "*", 
+          RowBox[{"(", 
+           RowBox[{"0.5", "*", 
+            RowBox[{"(", 
+             RowBox[{"1.0", "+", 
+              RowBox[{"Tanh", "[", 
+               RowBox[{"20.0", "*", 
+                RowBox[{"(", 
+                 RowBox[{"t", "-", "tEvent"}], ")"}]}], "]"}]}], ")"}]}], 
+           ")"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"eqs", "=", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{"delta", "'"}], "[", "t", "]"}], "==", 
+            RowBox[{"2.0", "*", "Pi", "*", 
+             RowBox[{"N", "[", "fNomVal", "]"}], "*", 
+             RowBox[{"dfPu", "[", "t", "]"}]}]}], ",", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"dfPu", "'"}], "[", "t", "]"}], "==", 
+            RowBox[{
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"dPg", "[", "t", "]"}], "+", 
+               RowBox[{"dPbess", "[", "t", "]"}], "+", 
+               RowBox[{"dPflex", "[", "t", "]"}], "-", 
+               RowBox[{"kSync", "*", 
+                RowBox[{"delta", "[", "t", "]"}]}], "-", 
+               RowBox[{"dTotal", "*", 
+                RowBox[{"dfPu", "[", "t", "]"}]}], "-", 
+               RowBox[{"pDistPu", "[", "t", "]"}]}], ")"}], "/", 
+             RowBox[{"(", 
+              RowBox[{"2.0", "*", "hTotal"}], ")"}]}]}], ",", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"dPg", "'"}], "[", "t", "]"}], "==", 
+            RowBox[{
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"-", 
+                 RowBox[{"(", 
+                  RowBox[{"1.0", "/", "rEq"}], ")"}]}], "*", 
+                RowBox[{"dfPu", "[", "t", "]"}]}], "-", 
+               RowBox[{"dPg", "[", "t", "]"}]}], ")"}], "/", "tGov"}]}], ",", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"dPbess", "'"}], "[", "t", "]"}], "==", 
+            RowBox[{
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"-", "bessGainPuPerHz"}], "*", 
+                RowBox[{"dfPu", "[", "t", "]"}]}], "-", 
+               RowBox[{"dPbess", "[", "t", "]"}]}], ")"}], "/", "0.08"}]}], ",", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"dPflex", "'"}], "[", "t", "]"}], "==", 
+            RowBox[{
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"-", "flexGainPuPerHz"}], "*", 
+                RowBox[{"dfPu", "[", "t", "]"}]}], "-", 
+               RowBox[{"dPflex", "[", "t", "]"}]}], ")"}], "/", "0.20"}]}]}], 
+          "}"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"ic", "=", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"delta", "[", "0", "]"}], "==", "0.0"}], ",", 
+           RowBox[{
+            RowBox[{"dfPu", "[", "0", "]"}], "==", "0.0"}], ",", 
+           RowBox[{
+            RowBox[{"dPg", "[", "0", "]"}], "==", "0.0"}], ",", 
+           RowBox[{
+            RowBox[{"dPbess", "[", "0", "]"}], "==", "0.0"}], ",", 
+           RowBox[{
+            RowBox[{"dPflex", "[", "0", "]"}], "==", "0.0"}]}], "}"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"sol", "=", 
+         RowBox[{"First", "[", 
+          RowBox[{"NDSolve", "[", 
+           RowBox[{
+            RowBox[{"Join", "[", 
+             RowBox[{"eqs", ",", "ic"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{
+             "delta", ",", "dfPu", ",", "dPg", ",", "dPbess", ",", "dPflex"}],
+              "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"t", ",", "0.0", ",", 
+              RowBox[{"N", "[", "tEnd", "]"}]}], "}"}]}], "]"}], "]"}]}], ";",
+         "\[IndentingNewLine]", 
+        RowBox[{"fHzFunc", "=", 
+         RowBox[{"Function", "[", 
+          RowBox[{"tau", ",", 
+           RowBox[{
+            RowBox[{"N", "[", "fNomVal", "]"}], "*", 
+            RowBox[{"(", 
+             RowBox[{"1.0", "+", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"dfPu", "[", "tau", "]"}], "/.", " ", "sol"}], 
+               ")"}]}], ")"}]}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"pDistMWFunc", "=", 
+         RowBox[{"Function", "[", 
+          RowBox[{"tau", ",", 
+           RowBox[{
+            RowBox[{"pDistPu", "[", "tau", "]"}], "*", 
+            RowBox[{"N", "[", "baseMVAVal", "]"}]}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"pGenMWFunc", "=", 
+         RowBox[{"Function", "[", 
+          RowBox[{"tau", ",", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"dPg", "[", "tau", "]"}], "/.", " ", "sol"}], ")"}], "*", 
+            RowBox[{"N", "[", "baseMVAVal", "]"}]}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"pBessMWFunc", "=", 
+         RowBox[{"Function", "[", 
+          RowBox[{"tau", ",", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"dPbess", "[", "tau", "]"}], "/.", " ", "sol"}], ")"}], 
+            "*", 
+            RowBox[{"N", "[", "baseMVAVal", "]"}]}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"pFlexMWFunc", "=", 
+         RowBox[{"Function", "[", 
+          RowBox[{"tau", ",", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"dPflex", "[", "tau", "]"}], "/.", " ", "sol"}], ")"}], 
+            "*", 
+            RowBox[{"N", "[", "baseMVAVal", "]"}]}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"fSamples", "=", 
+         RowBox[{"Table", "[", 
+          RowBox[{
+           RowBox[{"fHzFunc", "[", "tau", "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"tau", ",", "0.0", ",", 
+             RowBox[{"N", "[", "tEnd", "]"}], ",", "0.01"}], "}"}]}], "]"}]}],
+         ";", "\[IndentingNewLine]", 
+        RowBox[{"<|", 
+         RowBox[{
+          RowBox[{"\"\<t_end\>\"", "->", 
+           RowBox[{"N", "[", "tEnd", "]"}]}], ",", 
+          RowBox[{"\"\<t_event\>\"", "->", 
+           RowBox[{"N", "[", "tEvent", "]"}]}], ",", 
+          RowBox[{"\"\<step_dist_mw\>\"", "->", 
+           RowBox[{"N", "[", "stepDistMW", "]"}]}], ",", 
+          RowBox[{"\"\<H_total_s\>\"", "->", "hTotal"}], ",", 
+          RowBox[{"\"\<D_total_pu\>\"", "->", "dTotal"}], ",", 
+          RowBox[{"\"\<R_eq_pu\>\"", "->", "rEq"}], ",", 
+          RowBox[{"\"\<f_nadir_or_zenith_hz\>\"", "->", 
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{"stepDistMW", ">=", "0"}], ",", 
+             RowBox[{"Min", "[", "fSamples", "]"}], ",", 
+             RowBox[{"Max", "[", "fSamples", "]"}]}], "]"}]}], ",", 
+          RowBox[{"\"\<f_steady_hz\>\"", "->", 
+           RowBox[{"fHzFunc", "[", 
+            RowBox[{"N", "[", "tEnd", "]"}], "]"}]}], ",", 
+          RowBox[{"\"\<f_hz_func\>\"", "->", "fHzFunc"}], ",", 
+          RowBox[{"\"\<p_gen_delta_mw_func\>\"", "->", "pGenMWFunc"}], ",", 
+          RowBox[{"\"\<p_bess_delta_mw_func\>\"", "->", "pBessMWFunc"}], ",", 
+          RowBox[{"\"\<p_flex_delta_mw_func\>\"", "->", "pFlexMWFunc"}], ",", 
+          RowBox[{"\"\<p_dist_mw_func\>\"", "->", "pDistMWFunc"}]}], 
+         "|>"}]}]}], "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"transientRes", "=", 
+     RowBox[{"RunTransientSimulation", "[", 
+      RowBox[{
+      "nodesDef", ",", "loadBalanceRes", ",", "dynJacRes", ",", "baseMVA", ",",
+        "f", ",", "20.0", ",", "1.0", ",", "15.0"}], "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+    "Print", "[", "\"\<=== V\[YAcute]sledky p\[RHacek]echodov\[EAcute] \
+simulace (NDSolve) ===\>\"", "]"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"<|", 
+      RowBox[{
+       RowBox[{"\"\<H_total_s\>\"", "->", 
+        RowBox[{"transientRes", "[", "\"\<H_total_s\>\"", "]"}]}], ",", 
+       RowBox[{"\"\<D_total_pu\>\"", "->", 
+        RowBox[{"transientRes", "[", "\"\<D_total_pu\>\"", "]"}]}], ",", 
+       RowBox[{"\"\<f_extrem_hz\>\"", "->", 
+        RowBox[{"transientRes", "[", "\"\<f_nadir_or_zenith_hz\>\"", "]"}]}], 
+       ",", 
+       RowBox[{"\"\<f_ustalena_hz\>\"", "->", 
+        RowBox[{"transientRes", "[", "\"\<f_steady_hz\>\"", "]"}]}]}], "|>"}],
+      "]"}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{"GraphicsRow", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"Plot", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"transientRes", "[", "\"\<f_hz_func\>\"", "]"}], "[", "t", 
+          "]"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"t", ",", "0", ",", 
+           RowBox[{"transientRes", "[", "\"\<t_end\>\"", "]"}]}], "}"}], ",", 
+         RowBox[{"PlotRange", "->", "All"}], ",", 
+         RowBox[{"GridLines", "->", "Automatic"}], ",", 
+         RowBox[{"Frame", "->", "True"}], ",", 
+         RowBox[{"FrameLabel", "->", 
+          RowBox[{"{", 
+           
+           RowBox[{"\"\<\[CapitalCHacek]as t [s]\>\"", 
+            ",", "\"\<Frekvence f [Hz]\>\""}], "}"}]}], ",", 
+         RowBox[{
+         "PlotLabel", 
+          "->", "\"\<P\[RHacek]echodov\[YAcute] d\[EHacek]j frekvence \
+f(t)\>\""}], ",", 
+         RowBox[{"PlotStyle", "->", "Thick"}]}], "]"}], ",", 
+       RowBox[{"Plot", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"transientRes", "[", "\"\<p_dist_mw_func\>\"", "]"}], "[",
+             "t", "]"}], ",", 
+           RowBox[{
+            RowBox[{"transientRes", "[", "\"\<p_gen_delta_mw_func\>\"", "]"}],
+             "[", "t", "]"}], ",", 
+           RowBox[{
+            RowBox[{
+            "transientRes", "[", "\"\<p_bess_delta_mw_func\>\"", "]"}], "[", 
+            "t", "]"}], ",", 
+           RowBox[{
+            RowBox[{
+            "transientRes", "[", "\"\<p_flex_delta_mw_func\>\"", "]"}], "[", 
+            "t", "]"}]}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"t", ",", "0", ",", 
+           RowBox[{"transientRes", "[", "\"\<t_end\>\"", "]"}]}], "}"}], ",", 
+         RowBox[{"PlotRange", "->", "All"}], ",", 
+         RowBox[{"GridLines", "->", "Automatic"}], ",", 
+         RowBox[{"Frame", "->", "True"}], ",", 
+         RowBox[{"FrameLabel", "->", 
+          RowBox[{"{", 
+           
+           RowBox[{"\"\<\[CapitalCHacek]as t [s]\>\"", 
+            ",", "\"\<Zm\[EHacek]na v\[YAcute]konu [MW]\>\""}], "}"}]}], ",", 
+         RowBox[{
+         "PlotLabel", 
+          "->", "\"\<Porucha vs. regulace / BESS / flexibilita\>\""}], ",", 
+         RowBox[{"PlotLegends", "->", 
+          RowBox[{"{", 
+           
+           RowBox[{"\"\<Porucha [MW]\>\"", 
+            ",", "\"\<Gener\[AAcute]tory [MW]\>\"", ",", "\"\<BESS [MW]\>\"", 
+            ",", "\"\<Flexibilita [MW]\>\""}], "}"}]}]}], "]"}]}], "}"}], ",", 
+     RowBox[{"ImageSize", "->", "950"}]}], "]"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "==="}], "="}], "*)"}], "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"MODUL", " ", "8"}], ":", 
+     RowBox[{"Fin\[AAcute]ln\[IAcute]", " ", "export", " ", 
+      RowBox[{"(", 
+       RowBox[{"CSV", ",", 
+        RowBox[{"JSON", " ", "s", " ", "bilanc\[IAcute]"}], ",", 
+        RowBox[{
+        "DAE", " ", "a", " ", "\[CHacek]asov\[YAcute]mi", " ", 
+         "\[RHacek]adami"}]}], ")"}]}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "==="}], "="}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"ClearAll", "[", "SanitizeForJSON", "]"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"SanitizeForJSON", "[", "expr_", "]"}], ":=", 
+     RowBox[{"expr", "//.", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"Infinity", "->", "Null"}], ",", 
+        RowBox[{
+         RowBox[{"-", "Infinity"}], "->", "Null"}], ",", 
+        RowBox[{"Indeterminate", "->", "Null"}], ",", 
+        RowBox[{"_Missing", "->", "Null"}], ",", 
+        RowBox[{"c_Complex", ":>", 
+         RowBox[{"<|", 
+          RowBox[{
+           RowBox[{"\"\<re\>\"", "->", 
+            RowBox[{"Re", "[", "c", "]"}]}], ",", 
+           RowBox[{"\"\<im\>\"", "->", 
+            RowBox[{"Im", "[", "c", "]"}]}]}], "|>"}]}]}], "}"}]}]}], ";"}], 
+   "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+    "exportDir", "=", "\"\<C:\\\\GIP_Models\\\\gip-pilot\\\\Tools\>\""}], 
+    ";"}], "\n", 
+   RowBox[{
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{"!", 
+       RowBox[{"DirectoryQ", "[", "exportDir", "]"}]}], ",", 
+      RowBox[{"CreateDirectory", "[", "exportDir", "]"}]}], "]"}], ";"}], 
+   "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"nBusVal", "=", 
+     RowBox[{"Length", "[", 
+      RowBox[{"Flatten", "[", 
+       RowBox[{"{", "vSolFinal", "}"}], "]"}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"rawYbus", "=", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Head", "[", "Ybus", "]"}], "===", "SparseArray"}], ",", 
+       RowBox[{"Normal", "[", "Ybus", "]"}], ",", "Ybus"}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"realMat", "=", 
+     RowBox[{"Map", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"NumberQ", "[", "#", "]"}], ",", 
+          RowBox[{"Re", "[", "#", "]"}], ",", "0.0"}], "]"}], "&"}], ",", 
+       "rawYbus", ",", 
+       RowBox[{"{", "2", "}"}]}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"imagMat", "=", 
+     RowBox[{"Map", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"NumberQ", "[", "#", "]"}], ",", 
+          RowBox[{"Im", "[", "#", "]"}], ",", "0.0"}], "]"}], "&"}], ",", 
+       "rawYbus", ",", 
+       RowBox[{"{", "2", "}"}]}], "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Export", "[", 
+     RowBox[{
+      RowBox[{"FileNameJoin", "[", 
+       RowBox[{"{", 
+        RowBox[{"exportDir", ",", "\"\<Ybus_real.csv\>\""}], "}"}], "]"}], ",",
+       "realMat", ",", "\"\<CSV\>\""}], "]"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Export", "[", 
+     RowBox[{
+      RowBox[{"FileNameJoin", "[", 
+       RowBox[{"{", 
+        RowBox[{"exportDir", ",", "\"\<Ybus_imag.csv\>\""}], "}"}], "]"}], ",",
+       "imagMat", ",", "\"\<CSV\>\""}], "]"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Export", "[", 
+     RowBox[{
+      RowBox[{"FileNameJoin", "[", 
+       RowBox[{"{", 
+        RowBox[{"exportDir", ",", "\"\<voltages_pu.csv\>\""}], "}"}], "]"}], ",", 
+      RowBox[{"N", "[", 
+       RowBox[{"Flatten", "[", 
+        RowBox[{"{", "vSolFinal", "}"}], "]"}], "]"}], ",", "\"\<CSV\>\""}], 
+     "]"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Export", "[", 
+     RowBox[{
+      RowBox[{"FileNameJoin", "[", 
+       RowBox[{"{", 
+        RowBox[{"exportDir", ",", "\"\<angles_rad.csv\>\""}], "}"}], "]"}], ",", 
+      RowBox[{"N", "[", 
+       RowBox[{"Flatten", "[", 
+        RowBox[{"{", "thSolFinal", "}"}], "]"}], "]"}], ",", "\"\<CSV\>\""}], 
+     "]"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Export", "[", 
+     RowBox[{
+      RowBox[{"FileNameJoin", "[", 
+       RowBox[{"{", 
+        RowBox[{"exportDir", ",", "\"\<p_mw.csv\>\""}], "}"}], "]"}], ",", 
+      RowBox[{"N", "[", 
+       RowBox[{"Flatten", "[", 
+        RowBox[{"{", "PmwFinal", "}"}], "]"}], "]"}], ",", "\"\<CSV\>\""}], 
+     "]"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Export", "[", 
+     RowBox[{
+      RowBox[{"FileNameJoin", "[", 
+       RowBox[{"{", 
+        RowBox[{"exportDir", ",", "\"\<q_mvar.csv\>\""}], "}"}], "]"}], ",", 
+      RowBox[{"N", "[", 
+       RowBox[{"Flatten", "[", 
+        RowBox[{"{", "QmvarFinal", "}"}], "]"}], "]"}], ",", "\"\<CSV\>\""}], 
+     "]"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Export", "[", 
+     RowBox[{
+      RowBox[{"FileNameJoin", "[", 
+       RowBox[{"{", 
+        RowBox[{"exportDir", ",", "\"\<n_bus.csv\>\""}], "}"}], "]"}], ",", 
+      RowBox[{"{", "nBusVal", "}"}], ",", "\"\<CSV\>\""}], "]"}], ";"}], "\n",
+    "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"timeGrid", "=", 
+     RowBox[{"Range", "[", 
+      RowBox[{"0.0", ",", 
+       RowBox[{"transientRes", "[", "\"\<t_end\>\"", "]"}], ",", "0.05"}], 
+      "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"timeSeriesTable", "=", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"<|", 
+        RowBox[{
+         RowBox[{"\"\<t_s\>\"", "->", "tVal"}], ",", 
+         RowBox[{"\"\<f_hz\>\"", "->", 
+          RowBox[{
+           RowBox[{"transientRes", "[", "\"\<f_hz_func\>\"", "]"}], "[", 
+           "tVal", "]"}]}], ",", 
+         RowBox[{"\"\<p_dist_mw\>\"", "->", 
+          RowBox[{
+           RowBox[{"transientRes", "[", "\"\<p_dist_mw_func\>\"", "]"}], "[", 
+           "tVal", "]"}]}], ",", 
+         RowBox[{"\"\<p_gen_delta_mw\>\"", "->", 
+          RowBox[{
+           RowBox[{"transientRes", "[", "\"\<p_gen_delta_mw_func\>\"", "]"}], 
+           "[", "tVal", "]"}]}], ",", 
+         RowBox[{"\"\<p_bess_delta_mw\>\"", "->", 
+          RowBox[{
+           RowBox[{"transientRes", "[", "\"\<p_bess_delta_mw_func\>\"", "]"}],
+            "[", "tVal", "]"}]}], ",", 
+         RowBox[{"\"\<p_flex_delta_mw\>\"", "->", 
+          RowBox[{
+           RowBox[{"transientRes", "[", "\"\<p_flex_delta_mw_func\>\"", "]"}],
+            "[", "tVal", "]"}]}]}], "|>"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"tVal", ",", "timeGrid"}], "}"}]}], "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"exportPayload", "=", 
+     RowBox[{"SanitizeForJSON", "[", 
+      RowBox[{"<|", 
+       RowBox[{
+        RowBox[{"\"\<timestamp\>\"", "->", 
+         RowBox[{"DateString", "[", "\"\<ISODateTime\>\"", "]"}]}], ",", 
+        RowBox[{"\"\<base_mva\>\"", "->", 
+         RowBox[{"N", "[", "baseMVA", "]"}]}], ",", 
+        RowBox[{"\"\<frequency_hz\>\"", "->", 
+         RowBox[{"N", "[", "f", "]"}]}], ",", 
+        RowBox[{"\"\<steady_state\>\"", "->", 
+         RowBox[{"<|", 
+          RowBox[{
+           RowBox[{"\"\<v_pu\>\"", "->", 
+            RowBox[{"N", "[", "vSolFinal", "]"}]}], ",", 
+           RowBox[{"\"\<theta_rad\>\"", "->", 
+            RowBox[{"N", "[", "thSolFinal", "]"}]}]}], "|>"}]}], ",", 
+        RowBox[{"\"\<load_balance\>\"", "->", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{"AssociationQ", "[", "loadBalanceRes", "]"}], ",", 
+           RowBox[{"<|", 
+            RowBox[{
+             RowBox[{"\"\<network_balance\>\"", "->", 
+              RowBox[{"Lookup", "[", 
+               RowBox[{"loadBalanceRes", ",", "\"\<network_balance\>\"", ",", 
+                RowBox[{"<|", "|>"}]}], "]"}]}], ",", 
+             RowBox[{"\"\<summary_by_load_type\>\"", "->", 
+              RowBox[{"Lookup", "[", 
+               RowBox[{
+               "loadBalanceRes", ",", "\"\<summary_by_load_type\>\"", ",", 
+                RowBox[{"<|", "|>"}]}], "]"}]}], ",", 
+             RowBox[{"\"\<loads_detail\>\"", "->", 
+              RowBox[{"Lookup", "[", 
+               RowBox[{"loadBalanceRes", ",", "\"\<loads_detail\>\"", ",", 
+                RowBox[{"<|", "|>"}]}], "]"}]}], ",", 
+             RowBox[{"\"\<bus_load_injections\>\"", "->", 
+              RowBox[{"Lookup", "[", 
+               RowBox[{"loadBalanceRes", ",", "\"\<bus_load_injections\>\"", ",", 
+                RowBox[{"<|", "|>"}]}], "]"}]}]}], "|>"}], ",", 
+           RowBox[{"<|", "|>"}]}], "]"}]}], ",", 
+        RowBox[{"\"\<dynamic_analysis\>\"", "->", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{"AssociationQ", "[", "dynJacRes", "]"}], ",", 
+           RowBox[{"<|", 
+            RowBox[{
+             RowBox[{"\"\<gen_nodes\>\"", "->", 
+              RowBox[{"Map", "[", 
+               RowBox[{"ToString", ",", 
+                RowBox[{"Lookup", "[", 
+                 RowBox[{"dynJacRes", ",", "\"\<gen_nodes\>\"", ",", 
+                  RowBox[{"{", "}"}]}], "]"}]}], "]"}]}], ",", 
+             RowBox[{"\"\<A_matrix\>\"", "->", 
+              RowBox[{"N", "[", 
+               RowBox[{"Lookup", "[", 
+                RowBox[{"dynJacRes", ",", "\"\<A_matrix\>\"", ",", 
+                 RowBox[{"{", "}"}]}], "]"}], "]"}]}], ",", 
+             RowBox[{"\"\<B_matrix\>\"", "->", 
+              RowBox[{"N", "[", 
+               RowBox[{"Lookup", "[", 
+                RowBox[{"dynJacRes", ",", "\"\<B_matrix\>\"", ",", 
+                 RowBox[{"{", "}"}]}], "]"}], "]"}]}], ",", 
+             RowBox[{"\"\<eigenvalues\>\"", "->", 
+              RowBox[{"Lookup", "[", 
+               RowBox[{"dynJacRes", ",", "\"\<eigenvalues\>\"", ",", 
+                RowBox[{"{", "}"}]}], "]"}]}], ",", 
+             RowBox[{"\"\<is_small_signal_stable\>\"", "->", 
+              RowBox[{"TrueQ", "[", 
+               RowBox[{"Lookup", "[", 
+                RowBox[{
+                "dynJacRes", ",", "\"\<is_small_signal_stable\>\"", ",", 
+                 "False"}], "]"}], "]"}]}], ",", 
+             RowBox[{"\"\<rocof_sens_Hz_per_s_MW\>\"", "->", 
+              RowBox[{"Lookup", "[", 
+               RowBox[{"dynJacRes", ",", "\"\<rocof_sens_Hz_per_s_MW\>\"", ",", 
+                RowBox[{"<|", "|>"}]}], "]"}]}]}], "|>"}], ",", 
+           RowBox[{"<|", "|>"}]}], "]"}]}], ",", 
+        RowBox[{"\"\<transient_simulation\>\"", "->", 
+         RowBox[{"<|", 
+          RowBox[{
+           RowBox[{"\"\<summary\>\"", "->", 
+            RowBox[{"KeyDrop", "[", 
+             RowBox[{"transientRes", ",", 
+              RowBox[{"{", 
+               
+               RowBox[{"\"\<f_hz_func\>\"", ",", "\"\<p_gen_delta_mw_func\>\"",
+                 ",", "\"\<p_bess_delta_mw_func\>\"", 
+                ",", "\"\<p_flex_delta_mw_func\>\"", 
+                ",", "\"\<p_dist_mw_func\>\""}], "}"}]}], "]"}]}], ",", 
+           RowBox[{"\"\<time_series\>\"", "->", "timeSeriesTable"}]}], 
+          "|>"}]}]}], "|>"}], "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"exportJsonPath", "=", 
+     RowBox[{"FileNameJoin", "[", 
+      RowBox[{"{", 
+       RowBox[{"exportDir", ",", "\"\<gip_simulation_results.json\>\""}], 
+       "}"}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Export", "[", 
+     RowBox[{"exportJsonPath", ",", "exportPayload", ",", "\"\<RawJSON\>\"", ",", 
+      RowBox[{"\"\<Compact\>\"", "->", "False"}]}], "]"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<\:2714 Export dokon\[CHacek]en: \>\"", ",", 
+      "exportJsonPath"}], "]"}], ";"}]}]}]], "Input",
+ CellChangeTimes->{{4.0045156183789253`*^9, 
+  4.004515685364025*^9}},ExpressionUUID->"97bd3839-c793-1147-af85-\
+e1a3c3353f2d"]
+},
+WindowSize->{1906.5, 998.25},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"15.0 for Microsoft Windows (64-bit) (July 2, 2026)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"39deb0fb-d5ed-e04c-9190-48ad621b0dc4"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[554, 20, 126090, 2983, 6589, "Input",ExpressionUUID->"97bd3839-c793-1147-af85-e1a3c3353f2d"]
+}
+]
+*)
+
